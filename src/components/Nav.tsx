@@ -52,7 +52,7 @@ export default function Nav() {
               textDecoration: "none", fontFamily: "var(--font-space-mono)",
             }}>{l}</a>
           ))}
-          <a href="mailto:jimwellcalma@email.com" style={{
+          <a href="mailto:jimwellwork28@gmail.com" style={{
             fontSize: "12px", padding: "6px 16px", borderRadius: "20px",
             border: "0.5px solid rgba(255,255,255,0.12)",
             color: "var(--text)", textDecoration: "none",
