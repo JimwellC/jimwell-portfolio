@@ -77,7 +77,12 @@ export default function AiChat() {
           </div>
 
           {/* Body — 2 col */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+          <div style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+            }}
+            className="chat-grid"
+            >
 
             {/* Left — intro / chat history */}
             <div style={{

@@ -9,41 +9,27 @@ function LiveClock() {
   useEffect(() => {
     const tick = () => {
       const now = new Date();
-      const timeStr = now.toLocaleTimeString("en-PH", {
+      setTime(now.toLocaleTimeString("en-PH", {
         timeZone: "Asia/Manila",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: true,
-      });
-      const dateStr = now.toLocaleDateString("en-PH", {
+        hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true,
+      }));
+      setDate(now.toLocaleDateString("en-PH", {
         timeZone: "Asia/Manila",
-        weekday: "short",
-        month: "short",
-        day: "numeric",
-      });
-      setTime(timeStr);
-      setDate(dateStr);
+        weekday: "short", month: "short", day: "numeric",
+      }));
     };
-
     tick();
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
   }, []);
 
   return (
-    <div style={{
-      display: "flex", alignItems: "center", gap: "10px",
-      fontFamily: "var(--font-space-mono)",
-    }}>
-      {/* Clock */}
+    <div style={{ display: "flex", alignItems: "center", gap: "10px", fontFamily: "var(--font-space-mono)" }}>
       <div style={{
         display: "flex", alignItems: "center", gap: "8px",
         padding: "5px 12px", borderRadius: "8px",
-        background: "var(--s1)",
-        border: "0.5px solid var(--border)",
+        background: "var(--s1)", border: "0.5px solid var(--border)",
       }}>
-        {/* Blinking colon indicator */}
         <span style={{
           width: "6px", height: "6px", borderRadius: "50%",
           background: "var(--accent)", display: "inline-block",
@@ -53,28 +39,20 @@ function LiveClock() {
           {time}
         </span>
         <span style={{
-          fontSize: "9px", color: "var(--dim)",
-          padding: "1px 5px", borderRadius: "4px",
-          background: "rgba(255,255,255,0.04)",
+          fontSize: "9px", color: "var(--dim)", padding: "1px 5px",
+          borderRadius: "4px", background: "rgba(255,255,255,0.04)",
           border: "0.5px solid var(--border)",
         }}>PH</span>
       </div>
 
-      {/* Date — hidden on smaller screens */}
-      <span style={{
+      {/* Hide date on mobile */}
+      <span className="hide-mobile" style={{
         fontSize: "10px", color: "var(--dim)",
         fontFamily: "var(--font-space-mono)",
-        letterSpacing: "0.02em",
-      }}
-        className="hidden-mobile"
-      >
-        {date}
-      </span>
+      }}>{date}</span>
 
-      {/* Separator */}
-      <span style={{ color: "var(--border)", fontSize: "12px" }}>·</span>
+      <span className="hide-mobile" style={{ color: "var(--border)", fontSize: "12px" }}>·</span>
 
-      {/* Availability */}
       <div style={{
         display: "flex", alignItems: "center", gap: "5px",
         fontSize: "10px", color: "var(--green)",
@@ -82,11 +60,10 @@ function LiveClock() {
       }}>
         <span style={{
           width: "5px", height: "5px", borderRadius: "50%",
-          background: "var(--green)",
-          animation: "pulse-dot 2s ease infinite",
+          background: "var(--green)", animation: "pulse-dot 2s ease infinite",
           display: "inline-block",
         }}/>
-        open to work
+        <span className="hide-mobile">open to work</span>
       </div>
     </div>
   );
@@ -94,6 +71,7 @@ function LiveClock() {
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 20);
@@ -103,13 +81,6 @@ export default function Nav() {
 
   return (
     <>
-      <style>{`
-        @media (max-width: 640px) {
-          .hidden-mobile { display: none !important; }
-          .nav-links { display: none !important; }
-        }
-      `}</style>
-
       <motion.nav
         initial={{ y: -16, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -122,59 +93,79 @@ export default function Nav() {
           position: "sticky", top: 0, zIndex: 50,
         }}
       >
-        <div
-          className="col"
-          style={{
-            display: "flex", alignItems: "center",
-            justifyContent: "space-between", padding: "10px 60px",
-          }}
-        >
-          {/* Left — live clock + availability */}
+        <div className="col" style={{
+          display: "flex", alignItems: "center",
+          justifyContent: "space-between", padding: "10px 60px",
+        }}>
+          {/* Left — clock */}
           <LiveClock />
 
-          {/* Right — links */}
-          <div className="nav-links" style={{ display: "flex", alignItems: "center", gap: "24px" }}>
-            {["work", "about", "contact"].map(l => (
-              <a
-                key={l}
-                href={`#${l}`}
-                style={{
-                  fontSize: "12px", color: "var(--muted)",
-                  textDecoration: "none",
-                  fontFamily: "var(--font-space-mono)",
-                  transition: "color 0.2s",
-                }}
-                onMouseEnter={e => e.currentTarget.style.color = "var(--a2)"}
-                onMouseLeave={e => e.currentTarget.style.color = "var(--muted)"}
-              >
-                {l}
-              </a>
+          {/* Right — desktop links */}
+          <div className="hide-mobile" style={{ display: "flex", alignItems: "center", gap: "24px" }}>
+            {["work","about","contact"].map(l => (
+              <a key={l} href={`#${l}`} style={{
+                fontSize: "12px", color: "var(--muted)",
+                textDecoration: "none", fontFamily: "var(--font-space-mono)",
+                transition: "color 0.2s",
+              }}
+              onMouseEnter={e => e.currentTarget.style.color = "var(--a2)"}
+              onMouseLeave={e => e.currentTarget.style.color = "var(--muted)"}
+              >{l}</a>
             ))}
-
-            <a
-            
-              href="mailto:your@email.com"
-              style={{
-                fontSize: "11px", padding: "6px 16px", borderRadius: "20px",
-                border: "0.5px solid rgba(255,255,255,0.12)",
-                color: "var(--text)", textDecoration: "none",
-                fontFamily: "var(--font-space-mono)",
-                transition: "border-color 0.2s, color 0.2s",
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.borderColor = "rgba(129,140,248,0.5)";
-                e.currentTarget.style.color = "var(--a2)";
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)";
-                e.currentTarget.style.color = "var(--text)";
-              }}
-            >
-              hire me
-            </a>
+            <a href="mailto:your@email.com" style={{
+              fontSize: "11px", padding: "6px 16px", borderRadius: "20px",
+              border: "0.5px solid rgba(255,255,255,0.12)",
+              color: "var(--text)", textDecoration: "none",
+              fontFamily: "var(--font-space-mono)",
+            }}>hire me</a>
           </div>
+
+          {/* Mobile hamburger */}
+          <button
+            className="show-mobile"
+            onClick={() => setMenuOpen(o => !o)}
+            style={{
+              display: "none",
+              background: "none", border: "0.5px solid var(--border)",
+              borderRadius: "8px", padding: "6px 10px",
+              color: "var(--text)", cursor: "pointer", fontSize: "14px",
+            }}
+          >
+            {menuOpen ? "✕" : "☰"}
+          </button>
         </div>
+
+        {/* Mobile menu dropdown */}
+        {menuOpen && (
+          <div style={{
+            borderTop: "0.5px solid var(--border)",
+            background: "rgba(8,9,16,0.98)",
+            padding: "16px 20px",
+            display: "flex", flexDirection: "column", gap: "16px",
+          }}>
+            {["work","about","contact"].map(l => (
+              <a key={l} href={`#${l}`}
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  fontSize: "14px", color: "var(--muted)",
+                  textDecoration: "none", fontFamily: "var(--font-space-mono)",
+                }}
+              >{l}</a>
+            ))}
+            <a href="mailto:your@email.com" style={{
+              fontSize: "13px", color: "var(--a2)",
+              textDecoration: "none", fontFamily: "var(--font-space-mono)",
+            }}>hire me →</a>
+          </div>
+        )}
       </motion.nav>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .show-mobile { display: flex !important; }
+          .hide-mobile { display: none !important; }
+        }
+      `}</style>
     </>
   );
 }

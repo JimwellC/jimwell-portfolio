@@ -15,8 +15,13 @@ export default function About() {
     <section id="about" className="section">
       <div className="col">
         <div className="eyebrow">About</div>
-        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"40px", alignItems:"start" }}
-          className="flex-col md:grid">
+        <div style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "40px", alignItems: "start",
+          }}
+          className="about-grid"
+          >
           {/* Left */}
           <div>
             <h2 style={{ fontSize:"22px", fontWeight:600, color:"#eaecf6", lineHeight:1.3, marginBottom:"16px" }}>

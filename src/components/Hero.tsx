@@ -109,17 +109,15 @@ export default function Hero() {
           position: "absolute", inset: 0,
           background: "radial-gradient(ellipse 50% 60% at 20% 60%, rgba(99,102,241,0.1) 0%, transparent 65%), radial-gradient(ellipse 35% 45% at 80% 20%, rgba(34,211,238,0.06) 0%, transparent 60%)",
         }}/>
-        <div className="pointer-events-none" style={{
-          position: "absolute", bottom: 0, right: 0,
-          width: "280px", height: "280px", opacity: 0.03,
-          backgroundImage: "linear-gradient(var(--accent) 1px,transparent 1px),linear-gradient(90deg,var(--accent) 1px,transparent 1px)",
-          backgroundSize: "16px 16px",
-        }}/>
 
         <div className="col" style={{ paddingTop: "72px", paddingBottom: "64px", position: "relative" }}>
 
           {/* Top row — photo + name */}
-          <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "28px" }}>
+          <div style={{
+            display: "flex", alignItems: "center",
+            gap: "16px", marginBottom: "28px",
+            flexWrap: "wrap",
+          }}>
 
             {/* Photo */}
             <motion.div
@@ -176,9 +174,11 @@ export default function Hero() {
           <motion.h1
             variants={f} custom={1} initial="hidden" animate="show"
             style={{
-              fontSize: "clamp(44px, 6vw, 80px)", fontWeight: 700,
-              lineHeight: 1.04, letterSpacing: "-0.025em",
-              color: "#eaecf6", marginBottom: "24px", maxWidth: "700px",
+              fontSize: "clamp(32px, 6vw, 80px)",  // clamp handles mobile automatically
+              fontWeight: 700, lineHeight: 1.04,
+              letterSpacing: "-0.025em",
+              color: "#eaecf6", marginBottom: "24px",
+              maxWidth: "700px",
             }}
           >
             I build things<br />
@@ -241,7 +241,7 @@ export default function Hero() {
             {[
               { label: "github.com/JimwellC", href: "https://github.com/JimwellC" },
               { label: "jimwellcalma.netlify.app", href: "https://jimwellcalma.netlify.app" },
-              { label: "Holy Angel University, 2024", href: "#" },
+              { label: "Holy Angel University, 2026", href: "#" },
             ].map((item, i) => (
               <span key={i} style={{ display: "flex", alignItems: "center" }}>
                 {i > 0 && <span style={{ margin: "0 12px", color: "var(--dim)", fontSize: "12px" }}>·</span>}

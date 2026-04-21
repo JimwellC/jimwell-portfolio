@@ -23,13 +23,13 @@ export default function Experience() {
           style={{
             display: "grid",
             gridTemplateColumns: "20px 1fr auto",
-            gap: "24px",
-            padding: "28px",
+            gap: "24px", padding: "28px",
             borderRadius: "16px",
             background: "var(--s1)",
             border: "0.5px solid var(--border)",
             alignItems: "start",
           }}
+          className="exp-grid"
         >
           {/* Timeline dot */}
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingTop: "4px" }}>
@@ -58,7 +58,6 @@ export default function Experience() {
               Redmond Global Headquarters in Washington, United States.
             </p>
 
-            {/* Certificate callout */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -71,7 +70,6 @@ export default function Experience() {
                 display: "flex", alignItems: "center", gap: "12px",
               }}
             >
-              {/* Microsoft logo colors */}
               <div style={{
                 width: "30px", height: "30px", borderRadius: "6px", flexShrink: 0,
                 display: "grid", gridTemplateColumns: "1fr 1fr",
@@ -95,7 +93,7 @@ export default function Experience() {
           </div>
 
           {/* Right tags */}
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "6px" }}>
+          <div className="exp-tags" style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "6px" }}>
             <span style={{
               fontSize: "10px", padding: "3px 10px", borderRadius: "6px",
               background: "var(--s2)", border: "0.5px solid var(--border)",

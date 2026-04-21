@@ -3,7 +3,7 @@ export type Certificate = {
   name: string;
   issuer: string;
   date: string;
-  category: "technical" | "course" | "award";
+  category: "technical" | "course" | "award" | "webinar" | "seminar";
   featured: boolean;
   image: string;
   color: string;
@@ -28,7 +28,7 @@ export const certifications: Certificate[] = [
     id: "react-essential",
     name: "React Essential Training",
     issuer: "LinkedIn Learning",
-    date: "2024",
+    date: "2025",
     category: "course",
     featured: true,
     image: "/certificates/react-essential.jpg",
@@ -40,12 +40,64 @@ export const certifications: Certificate[] = [
     id: "nodejs-essential",
     name: "Node.js Essential Training",
     issuer: "LinkedIn Learning",
-    date: "2024",
+    date: "2025",
     category: "course",
     featured: true,
     image: "/certificates/nodejs-essential.jpg",
     color: "var(--green)",
     dot: "rgba(74,222,128,0.5)",
+    href: "",
+  },
+
+   {
+    id: "git-webinar",
+    name: "Git and GitHub Webinar",
+    issuer: "Holy Angel University",
+    date: "2024",
+    category: "webinar",
+    featured: true,
+    image: "/certificates/git-webinar.jpg",
+    color: "var(--orange)",
+    dot: "rgba(209, 96, 78, 0.5)",
+    href: "",
+  },
+
+  {
+    id: "cg-seminar",
+    name: "Tech Seminar",
+    issuer: "Holy Angel University",
+    date: "2024",
+    category: "seminar",
+    featured: true,
+    image: "/certificates/CG-seminar.jpg",
+    color: "var(--orange)",
+    dot: "rgba(182, 184, 89, 0.5)",
+    href: "",
+  },
+
+    {
+    id: "python", 
+    name: "Complete Python Course",
+    issuer: "Udemy",
+    date: "2024",
+    category: "course",
+    featured: true,
+    image: "/certificates/phyton-complete.jpeg",
+    color: "var(--orange)", 
+    dot: "rgba(17, 81, 11, 0.5)",
+    href: "",
+  },
+
+  {
+    id: "cybersecurity-essentials", 
+    name: "Cybersecurity Essentials",
+    issuer: "Cisco",
+    date: "2024",
+    category: "course",
+    featured: true,
+    image: "/certificates/cybersecurity-essentials.jpg",
+    color: "var(--orange)", 
+    dot: "rgba(178, 83, 124, 0.5)",
     href: "",
   },
   // ── ADD MORE CERTIFICATES BELOW ──────────────────────────

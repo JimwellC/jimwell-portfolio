@@ -34,7 +34,13 @@ export default function Craft() {
         </motion.div>
 
         {/* Editorial layout — headline left, items right */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "48px", alignItems: "start" }}>
+        <div style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "48px", alignItems: "start",
+          }}
+          className="craft-grid"
+          >
 
           {/* Left — section headline */}
           <motion.div
@@ -63,7 +69,9 @@ export default function Craft() {
           </motion.div>
 
           {/* Right — numbered items */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
+          <div style={{
+            display: "flex", flexDirection: "column", gap: "0",
+          }}>
             {items.map((item, i) => (
               <motion.div
                 key={item.num}

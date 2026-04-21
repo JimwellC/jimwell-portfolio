@@ -62,7 +62,7 @@ export const projects: Project[] = [
     ],
     glow: "rgba(34,211,238,0.06)",
     glowHover: "rgba(34,211,238,0.12)",
-    github: "https://github.com/JimwellC",
+    github: "https://github.com/JimwellC/fad-fashiown-system",
     live: "",
   },
   {
