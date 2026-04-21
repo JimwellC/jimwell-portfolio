@@ -7,7 +7,7 @@ const SYSTEM_PROMPT = `You are an AI assistant on Jimwell Calma's portfolio webs
 
 ABOUT JIMWELL
 - Full Stack & Mobile Developer
-- Fresh graduate from Holy Angel University — BS Information Technology, major in Web Development (2024)
+- Fresh graduate from Holy Angel University — BS Information Technology, major in Web Development (2026)
 - Based in Angeles, Philippines
 - Open to work — full-time or freelance, remote preferred
 - GitHub: github.com/JimwellC
