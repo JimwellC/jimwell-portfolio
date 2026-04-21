@@ -57,8 +57,8 @@ export const certifications: Certificate[] = [
     category: "webinar",
     featured: true,
     image: "/certificates/git-webinar.jpg",
-    color: "var(--orange)",
-    dot: "rgba(209, 96, 78, 0.5)",
+    color: "var(--pink)",
+    dot: "rgba(150, 88, 148, 0.5)",
     href: "",
   },
 
@@ -70,8 +70,8 @@ export const certifications: Certificate[] = [
     category: "seminar",
     featured: true,
     image: "/certificates/CG-seminar.jpg",
-    color: "var(--orange)",
-    dot: "rgba(182, 184, 89, 0.5)",
+    color: "var(--pink)",
+    dot: "rgba(150, 88, 148, 0.5)",
     href: "",
   },
 
@@ -131,10 +131,22 @@ export const categoryStyles: Record<string, React.CSSProperties> = {
     border: "0.5px solid rgba(250,204,21,0.2)",
     color: "#fbbf24",
   },
+  webinar: {
+    background: "rgba(61, 41, 64, 0.08)",
+    border: "0.5px solid rgba(61, 41, 64, 0.2)",
+    color: "#965894",
+  },
+  seminar: {
+    background: "rgba(61, 41, 64, 0.08)",
+    border: "0.5px solid rgba(61, 41, 64, 0.2)",
+    color: "#965894",
+  },
 };
 
 export const categoryLabels: Record<string, string> = {
   technical: "Technical",
   course: "Course",
   award: "Award",
+  webinar: "Webinar",
+  seminar: "Seminar",
 };
