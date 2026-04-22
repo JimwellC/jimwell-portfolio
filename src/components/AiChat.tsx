@@ -72,7 +72,7 @@ export default function AiChat() {
             <span style={{
               fontSize: "11px", fontFamily: "var(--font-space-mono)", color: "var(--a2)",
             }}>
-              AI-powered · built with Gemini API
+              AI-powered
             </span>
           </div>
 

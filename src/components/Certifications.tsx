@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { certifications, categoryStyles, categoryLabels } from "@/data/certifications";
 
-const featured = certifications.filter(c => c.featured);
+const featured = certifications.filter(c => c.featured).slice(0, 5);
 
 function CertRow({ cert, i, total }: {
   cert: typeof certifications[0];
