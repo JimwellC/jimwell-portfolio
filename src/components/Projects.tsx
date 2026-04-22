@@ -111,6 +111,95 @@ function useSpotlight() {
   return { ref, handleMouseMove, handleMouseLeave };
 }
 
+function MobileProjectCard({ project: p, onOpenLightbox }: {
+  project: typeof projects[0];
+  onOpenLightbox: (images: string[], index: number) => void;
+}) {
+  const [current, setCurrent] = useState(0);
+
+  const prev = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrent(i => i === 0 ? p.images.length - 1 : i - 1);
+  };
+  const next = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrent(i => i === p.images.length - 1 ? 0 : i + 1);
+  };
+
+  return (
+    <div style={{
+      flexShrink: 0, width: "260px", borderRadius: "14px",
+      overflow: "hidden", background: "var(--s1)",
+      border: "0.5px solid var(--border)",
+    }}>
+      {p.images?.length > 0 && (
+        <div style={{ position: "relative", height: "160px", background: "var(--s2)" }}>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current}
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              style={{ position: "absolute", inset: 0 }}
+            >
+              <Image
+                src={p.images[current]}
+                alt={`${p.name} screenshot ${current + 1}`}
+                fill
+                style={{ objectFit: "cover", cursor: "zoom-in" }}
+                onClick={() => onOpenLightbox(p.images, current)}
+              />
+            </motion.div>
+          </AnimatePresence>
+
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top,rgba(8,9,16,0.7) 0%,transparent 60%)", pointerEvents: "none" }}/>
+
+          {/* Zoom hint */}
+          <div style={{ position: "absolute", top: "8px", right: "8px", fontSize: "9px", color: "rgba(255,255,255,0.5)", fontFamily: "var(--font-space-mono)", background: "rgba(8,9,16,0.6)", padding: "2px 6px", borderRadius: "6px" }}>
+            tap ↗
+          </div>
+
+          {/* Badge */}
+          <span style={{ position: "absolute", bottom: "8px", left: "10px", fontSize: "10px", padding: "2px 8px", borderRadius: "20px", fontFamily: "var(--font-space-mono)", ...badgeStyles[p.badge.style] }}>
+            {p.badge.label}
+          </span>
+
+          {/* Carousel arrows */}
+          {p.images.length > 1 && (
+            <>
+              <button onClick={prev} style={{ position: "absolute", left: "6px", top: "50%", transform: "translateY(-50%)", width: "24px", height: "24px", borderRadius: "50%", border: "0.5px solid rgba(255,255,255,0.2)", background: "rgba(8,9,16,0.7)", color: "#fff", fontSize: "11px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>‹</button>
+              <button onClick={next} style={{ position: "absolute", right: "6px", top: "50%", transform: "translateY(-50%)", width: "24px", height: "24px", borderRadius: "50%", border: "0.5px solid rgba(255,255,255,0.2)", background: "rgba(8,9,16,0.7)", color: "#fff", fontSize: "11px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>›</button>
+            </>
+          )}
+
+          {/* Dot indicators */}
+          {p.images.length > 1 && (
+            <div style={{ position: "absolute", bottom: "6px", left: "50%", transform: "translateX(-50%)", display: "flex", gap: "4px" }}>
+              {p.images.map((_, i) => (
+                <div key={i} style={{ width: i === current ? "12px" : "4px", height: "4px", borderRadius: "2px", background: i === current ? "#fff" : "rgba(255,255,255,0.3)", transition: "width 0.2s" }}/>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      <div style={{ padding: "12px 14px" }}>
+        <h3 style={{ fontSize: "14px", fontWeight: 600, color: "#eaecf6", marginBottom: "3px" }}>{p.name}</h3>
+        <p style={{ fontSize: "10px", color: "var(--dim)", fontFamily: "var(--font-space-mono)", marginBottom: "8px" }}>{p.tagline}</p>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "4px" }}>
+            {p.keyTech.map(t => (
+              <span key={t} style={{ fontSize: "9px", padding: "1px 6px", borderRadius: "4px", background: "rgba(99,102,241,0.08)", border: "0.5px solid rgba(99,102,241,0.25)", color: "var(--a2)", fontFamily: "var(--font-space-mono)" }}>{t}</span>
+            ))}
+          </div>
+          <Link href="/projects" style={{ fontSize: "10px", color: "var(--dim)", textDecoration: "none", fontFamily: "var(--font-space-mono)", whiteSpace: "nowrap", marginLeft: "8px" }}>
+            details →
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ProjectCard({ project: p, expanded, setExpanded, onOpenLightbox }: {
   project: typeof projects[0];
   expanded: string | null;
@@ -264,31 +353,21 @@ export default function Projects() {
             <span style={{ marginLeft: "auto", paddingLeft: "12px" }}>{featured.length} projects</span>
           </div>
         </div>
-        <div style={{ display: "flex", gap: "10px", overflowX: "auto", paddingBottom: "16px", paddingLeft: "20px", paddingRight: "20px", scrollbarWidth: "none", WebkitOverflowScrolling: "touch" } as React.CSSProperties}>
+        <div style={{
+          display: "flex", gap: "10px", overflowX: "auto",
+          paddingBottom: "16px", paddingLeft: "20px", paddingRight: "20px",
+          scrollbarWidth: "none", WebkitOverflowScrolling: "touch",
+        } as React.CSSProperties}>
           {featured.map(p => (
-            <Link key={p.num} href="/projects" style={{ textDecoration: "none", flexShrink: 0, width: "260px" }}>
-              <div style={{ borderRadius: "14px", overflow: "hidden", background: "var(--s1)", border: "0.5px solid var(--border)", width: "260px" }}>
-                {p.images?.[0] && (
-                  <div style={{ position: "relative", height: "140px", background: "var(--s2)" }}>
-                    <Image src={p.images[0]} alt={p.name} fill style={{ objectFit: "cover" }} />
-                    <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top,rgba(8,9,16,0.7) 0%,transparent 60%)", pointerEvents: "none" }}/>
-                    <span style={{ position: "absolute", bottom: "8px", left: "10px", fontSize: "10px", padding: "2px 8px", borderRadius: "20px", fontFamily: "var(--font-space-mono)", ...badgeStyles[p.badge.style] }}>{p.badge.label}</span>
-                  </div>
-                )}
-                <div style={{ padding: "12px 14px" }}>
-                  <h3 style={{ fontSize: "14px", fontWeight: 600, color: "#eaecf6", marginBottom: "3px" }}>{p.name}</h3>
-                  <p style={{ fontSize: "10px", color: "var(--dim)", fontFamily: "var(--font-space-mono)", marginBottom: "8px" }}>{p.tagline}</p>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: "4px" }}>
-                    {p.keyTech.map(t => (
-                      <span key={t} style={{ fontSize: "9px", padding: "1px 6px", borderRadius: "4px", background: "rgba(99,102,241,0.08)", border: "0.5px solid rgba(99,102,241,0.25)", color: "var(--a2)", fontFamily: "var(--font-space-mono)" }}>{t}</span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </Link>
+            <MobileProjectCard key={p.num} project={p} onOpenLightbox={openLightbox} />
           ))}
           <Link href="/projects" style={{ textDecoration: "none", flexShrink: 0, width: "160px" }}>
-            <div style={{ borderRadius: "14px", padding: "20px", width: "160px", height: "100%", background: "var(--s1)", border: "0.5px dashed rgba(99,102,241,0.25)", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "8px", minHeight: "200px" }}>
+            <div style={{
+              borderRadius: "14px", padding: "20px", width: "160px", height: "100%",
+              background: "var(--s1)", border: "0.5px dashed rgba(99,102,241,0.25)",
+              display: "flex", flexDirection: "column", justifyContent: "center",
+              alignItems: "center", gap: "8px", minHeight: "200px",
+            }}>
               <div style={{ fontSize: "24px", color: "var(--a2)" }}>→</div>
               <div style={{ fontSize: "12px", fontWeight: 600, color: "#eaecf6", textAlign: "center" }}>View all</div>
               <div style={{ fontSize: "10px", color: "var(--dim)", fontFamily: "var(--font-space-mono)", textAlign: "center" }}>{projects.length} projects</div>

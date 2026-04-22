@@ -15,6 +15,9 @@
   --cyan: #22d3ee;
   --green: #4ade80;
   --pink: #f472b6;
+  --orange: #fb923c;
+  --yellow: #fbbf24;
+  --purple: #a78bfa;
 }
 
 *, *::before, *::after {
