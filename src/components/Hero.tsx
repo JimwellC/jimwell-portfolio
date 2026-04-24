@@ -73,7 +73,7 @@ export default function Hero() {
             <div>
               <div style={{ fontSize: "13px", fontWeight: 600, color: "#eaecf6", marginBottom: "2px" }}>Jimwell Calma</div>
               <div style={{ fontFamily: "var(--font-space-mono)", fontSize: "10px", letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--a2)", opacity: 0.7 }}>
-                Full Stack & Mobile Developer · PH
+                Full Stack & Mobile Developer · Angeles, PH
               </div>
             </div>
           </motion.div>
@@ -93,8 +93,12 @@ export default function Hero() {
           <motion.p variants={f} custom={2} initial="hidden" animate="show"
             style={{ fontSize: "15px", color: "var(--muted)", lineHeight: 1.72, maxWidth: "480px", fontWeight: 300, marginBottom: "32px" }}
           >
-            Real-time auction platforms. TikTok selling automation. Emergency apps for people who need them most. I care about{" "}
-            <strong style={{ color: "var(--text)", fontWeight: 500 }}>how things work under pressure</strong>
+            Real-time auction platforms. TikTok live selling automation. Emergency apps
+            for people who need them most — built while I was still in school.
+            I care about{" "}
+            <strong style={{ color: "var(--text)", fontWeight: 500 }}>
+              how things work under pressure
+            </strong>
             {" "}— not just how they look.
           </motion.p>
 

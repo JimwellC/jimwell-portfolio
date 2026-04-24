@@ -158,7 +158,7 @@ export default function Certifications() {
 
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <p style={{ fontSize: "11px", color: "var(--dim)", fontFamily: "var(--font-space-mono)" }}>
-              * Microsoft Certificate of Appreciation listed under Experience.
+              * Certificate of Appreciation from Microsoft Corporation & Compass Group is listed under Experience.
             </p>
             <Link href="/certifications" style={{
               fontSize: "11px", color: "var(--a2)", fontFamily: "var(--font-space-mono)",
