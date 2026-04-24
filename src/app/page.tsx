@@ -10,6 +10,7 @@ import AiChat         from "@/components/AiChat";
 import Elsewhere      from "@/components/Elsewhere";
 import Footer         from "@/components/Footer";
 import ScrollReveal   from "@/components/ScrollReveal";
+import ScrollToTop    from "@/components/ScrollToTop";
 
 export default function Home() {
   return (
@@ -25,6 +26,9 @@ export default function Home() {
       <ScrollReveal delay={0.05}><AiChat /></ScrollReveal>
       <ScrollReveal delay={0.05}><Elsewhere /></ScrollReveal>
       <Footer />
+
+      {/* Fixed — outside scroll flow */}
+      <ScrollToTop />
     </main>
   );
 }
