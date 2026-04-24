@@ -47,14 +47,10 @@ body {
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: rgba(99,102,241,0.3); border-radius: 2px; }
 
-/* Full width section padding */
+/* ── Layout ── */
 .col {
   width: 100%;
   padding: 0 60px;
-}
-/* Nav uses same padding as col */
-.nav-col {
-  padding: 10px 60px;
 }
 
 .section {
@@ -81,18 +77,18 @@ body {
   background: var(--border);
 }
 
-/* Projects layout toggle */
+/* ── Layout toggles ── */
 .projects-mobile { display: none; }
 .projects-desktop { display: block; }
-
-/* Certifications layout toggle */
 .certs-mobile { display: none; }
 .certs-desktop { display: block; }
+.show-mobile { display: none; }
+
+/* ── Scrollbar hide ── */
+.projects-mobile div::-webkit-scrollbar { display: none; }
 .certs-mobile div::-webkit-scrollbar { display: none; }
 
-/* Hide scrollbar on mobile scroll strip */
-.projects-mobile div::-webkit-scrollbar { display: none; }
-
+/* ── Animations ── */
 @keyframes marquee-scroll {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -104,124 +100,53 @@ body {
   50%       { opacity: 0.3; }
 }
 
+/* ── Responsive: tablet + mobile (≤768px) ── */
 @media (max-width: 768px) {
-  .col { padding: 0 24px; }
+  .col { padding: 0 20px; }
   .section { padding: 44px 0; }
 
-  .about-grid {
-    grid-template-columns: 1fr !important;
-    gap: 28px !important;
-  }
+  /* Show/hide */
+  .hide-mobile { display: none !important; }
+  .show-mobile { display: flex !important; }
 
-  .craft-grid {
-    grid-template-columns: 1fr !important;
-    gap: 32px !important;
-  }
+  /* Layout toggles */
+  .projects-mobile { display: block; }
+  .projects-desktop { display: none; }
+  .certs-mobile { display: block; }
+  .certs-desktop { display: none; }
 
-  .chat-grid {
-    grid-template-columns: 1fr !important;
-  }
+  /* Grid collapses */
+  .about-grid    { grid-template-columns: 1fr !important; gap: 28px !important; }
+  .craft-grid    { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .contact-grid  { grid-template-columns: 1fr !important; gap: 28px !important; }
+  .projects-top  { grid-template-columns: 1fr !important; }
+  .projects-bottom { grid-template-columns: 1fr !important; }
 
+  /* AI chat */
+  .chat-grid { grid-template-columns: 1fr !important; }
   .chat-grid > div:first-child {
     border-right: none !important;
     border-bottom: 0.5px solid var(--border);
   }
-}
 
-/* ── Responsive utilities ── */
-@media (max-width: 768px) {
-  .col {
-    padding: 0 20px;
-  }
-
-  .section {
-    padding: 44px 0;
-  }
-
-  .grid-2 {
-    grid-template-columns: 1fr !important;
-  }
-
-  .grid-3 {
-    grid-template-columns: 1fr !important;
-  }
-
-  .grid-2-1 {
-    grid-template-columns: 1fr !important;
-  }
-
-  .hide-mobile {
-    display: none !important;
-  }
-
-  .stack-mobile {
-    flex-direction: column !important;
-  }
-
-  .projects-top {
-    grid-template-columns: 1fr !important;
-  }
-  .projects-bottom {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-@media (max-width: 480px) {
-  .col {
-    padding: 0 16px;
-  }
-  .elsewhere-links a {
-    width: 100%;
-  }
-
-  .projects-page-grid {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-@media (max-width: 640px) {
-  .exp-grid {
-    grid-template-columns: 20px 1fr !important;
-  }
-  .exp-tags {
-    display: none !important;
-  }
-}
-
-/* ── Responsive ── */
-@media (max-width: 768px) {
-  .col { padding: 0 20px; }
-  .section { padding: 44px 0; }
-  .hide-mobile { display: none !important; }
-  .show-mobile { display: flex !important; }
-  .about-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
-  .craft-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
-  .chat-grid { grid-template-columns: 1fr !important; }
-  .chat-grid > div:first-child { border-right: none !important; border-bottom: 0.5px solid var(--border); }
-  .projects-top { grid-template-columns: 1fr !important; }
-  .projects-bottom { grid-template-columns: 1fr !important; }
+  /* Experience tags hidden */
   .exp-tags { display: none !important; }
 
-  .projects-mobile { display: block; }
-  .projects-desktop { display: none; }
-
-  .certs-mobile { display: block; }
-  .certs-desktop { display: none; }
-
-  /* Fix nav padding */
+  /* Nav padding */
   nav .col {
     padding-left: 20px !important;
     padding-right: 20px !important;
   }
 }
 
+/* ── Responsive: small mobile (≤640px) ── */
 @media (max-width: 640px) {
-  .exp-grid { grid-template-columns: 20px 1fr !important; }
   .col { padding: 0 16px; }
+  .exp-grid { grid-template-columns: 20px 1fr !important; }
 }
 
+/* ── Responsive: extra small (≤480px) ── */
 @media (max-width: 480px) {
   .projects-page-grid { grid-template-columns: 1fr !important; }
-  .certs-page-grid { grid-template-columns: 1fr !important; }
-  .elsewhere-links a { width: 100%; }
+  .certs-page-grid    { grid-template-columns: 1fr !important; }
 }
