@@ -15,6 +15,7 @@ export type Project = {
   glowHover: string;
   github: string;
   live: string;
+  caseStudy?: string;
 };
 
 export const projects: Project[] = [
@@ -87,6 +88,7 @@ export const projects: Project[] = [
     glowHover: "rgba(244,114,182,0.12)",
     github: "https://github.com/JimwellC",
     live: "",
+    caseStudy: "/projects/reachable",
   },
   // ── ADD MORE PROJECTS BELOW ──────────────────────────────────────
   // {

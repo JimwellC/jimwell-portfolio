@@ -258,14 +258,44 @@ function ProjectCard({ project: p, expanded, setExpanded, onOpenLightbox }: {
               <span key={t} style={{ fontSize: "10px", padding: "2px 8px", borderRadius: "6px", fontFamily: "var(--font-space-mono)", ...(p.keyTech.includes(t) ? { background: "rgba(99,102,241,0.08)", border: "0.5px solid rgba(99,102,241,0.25)", color: "var(--a2)" } : { background: "rgba(255,255,255,0.04)", border: "0.5px solid rgba(255,255,255,0.07)", color: "rgba(201,204,230,0.45)" }) }}>{t}</span>
             ))}
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-            <a href={p.github} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{ fontSize: "11px", color: "var(--dim)", textDecoration: "none", fontFamily: "var(--font-space-mono)" }}>github →</a>
-            {p.live && <a href={p.live} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{ fontSize: "11px", color: "var(--cyan)", textDecoration: "none", fontFamily: "var(--font-space-mono)" }}>live →</a>}
-            <span style={{ marginLeft: "auto", fontSize: "11px", color: "var(--dim)", fontFamily: "var(--font-space-mono)" }}>{isOpen ? "collapse ↑" : "read more ↓"}</span>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+            <a href={p.github} target="_blank" rel="noopener noreferrer"
+              onClick={e => e.stopPropagation()}
+              style={{ fontSize: "11px", color: "var(--dim)", textDecoration: "none", fontFamily: "var(--font-space-mono)" }}>
+              github →
+            </a>
+            {p.live && (
+              <a href={p.live} target="_blank" rel="noopener noreferrer"
+                onClick={e => e.stopPropagation()}
+                style={{ fontSize: "11px", color: "var(--cyan)", textDecoration: "none", fontFamily: "var(--font-space-mono)" }}>
+                live →
+              </a>
+            )}
+            {p.caseStudy && isOpen && (
+              <a href={p.caseStudy}
+                onClick={e => e.stopPropagation()}
+                style={{
+                  fontSize: "11px", color: "var(--pink)", textDecoration: "none",
+                  fontFamily: "var(--font-space-mono)", padding: "4px 10px",
+                  borderRadius: "8px", background: "rgba(244,114,182,0.08)",
+                  border: "0.5px solid rgba(244,114,182,0.2)",
+                  transition: "background 0.15s",
+                }}
+                onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.background = "rgba(244,114,182,0.16)"}
+                onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.background = "rgba(244,114,182,0.08)"}
+              >
+                view case study →
+              </a>
+            )}
+            <span style={{ marginLeft: "auto", fontSize: "11px", color: "var(--dim)", fontFamily: "var(--font-space-mono)" }}>
+              {isOpen ? "collapse ↑" : "read more ↓"}
+            </span>
           </div>
         </div>
       </div>
+      
     </motion.div>
+    
   );
 }
 

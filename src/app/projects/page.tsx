@@ -175,13 +175,35 @@ function ProjectCard({ project: p, onOpenLightbox }: {
           ))}
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <a href={p.github} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{ fontSize: "11px", color: "var(--dim)", textDecoration: "none", fontFamily: "var(--font-space-mono)" }}
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+          <a href={p.github} target="_blank" rel="noopener noreferrer"
+            onClick={e => e.stopPropagation()}
+            style={{ fontSize: "11px", color: "var(--dim)", textDecoration: "none", fontFamily: "var(--font-space-mono)" }}
             onMouseEnter={e => e.currentTarget.style.color = "var(--a2)"}
             onMouseLeave={e => e.currentTarget.style.color = "var(--dim)"}
           >github →</a>
-          {p.live && <a href={p.live} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{ fontSize: "11px", color: "var(--cyan)", textDecoration: "none", fontFamily: "var(--font-space-mono)" }}>live →</a>}
-          <button onClick={e => { e.stopPropagation(); setExpanded(v => !v); }} style={{ marginLeft: "auto", fontSize: "11px", color: "var(--dim)", fontFamily: "var(--font-space-mono)", background: "none", border: "none", cursor: "pointer", padding: 0 }}>
+          {p.live && (
+            <a href={p.live} target="_blank" rel="noopener noreferrer"
+              onClick={e => e.stopPropagation()}
+              style={{ fontSize: "11px", color: "var(--cyan)", textDecoration: "none", fontFamily: "var(--font-space-mono)" }}>
+              live →
+            </a>
+          )}
+          {p.caseStudy && expanded && (
+            <a href={p.caseStudy}
+              onClick={e => e.stopPropagation()}
+              style={{
+                fontSize: "11px", color: "var(--pink)", textDecoration: "none",
+                fontFamily: "var(--font-space-mono)", padding: "4px 10px",
+                borderRadius: "8px", background: "rgba(244,114,182,0.08)",
+                border: "0.5px solid rgba(244,114,182,0.2)",
+              }}
+            >
+              view case study →
+            </a>
+          )}
+          <button onClick={e => { e.stopPropagation(); setExpanded(v => !v); }}
+            style={{ marginLeft: "auto", fontSize: "11px", color: "var(--dim)", fontFamily: "var(--font-space-mono)", background: "none", border: "none", cursor: "pointer", padding: 0 }}>
             {expanded ? "less ↑" : "more ↓"}
           </button>
         </div>
