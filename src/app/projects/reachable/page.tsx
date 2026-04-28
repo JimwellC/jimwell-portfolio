@@ -1,9 +1,8 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useCallback } from "react";
-import { AnimatePresence } from "framer-motion";
 import { createPortal } from "react-dom";
 
 // ── Portal lightbox ──
@@ -52,10 +51,7 @@ const team = [
 
 const fade = {
   hidden: { opacity: 0, y: 20 },
-  show: (i: number = 0) => ({
-    opacity: 1, y: 0,
-    transition: { delay: i * 0.08, duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] },
-  }),
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
 };
 
 export default function ReachableCaseStudy() {
@@ -100,15 +96,21 @@ export default function ReachableCaseStudy() {
             <span style={{ fontSize: "10px", color: "var(--dim)", fontFamily: "var(--font-space-mono)" }}>Holy Angel University · 2026</span>
           </motion.div>
 
-          <motion.h1 variants={fade} custom={1} initial="hidden" animate="show"
-            style={{ fontSize: "clamp(36px, 6vw, 72px)", fontWeight: 700, color: "#eaecf6", lineHeight: 1.05, letterSpacing: "-0.02em", marginBottom: "16px" }}
-          >
+          <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.08, ease: "easeOut" }}
+              style={{ fontSize: "clamp(36px, 6vw, 72px)", fontWeight: 700, color: "#eaecf6", lineHeight: 1.05, letterSpacing: "-0.02em", marginBottom: "16px" }}
+            >
             ReachAble
           </motion.h1>
 
-          <motion.p variants={fade} custom={2} initial="hidden" animate="show"
-            style={{ fontSize: "18px", color: "var(--muted)", lineHeight: 1.6, maxWidth: "560px", fontWeight: 300, marginBottom: "32px" }}
-          >
+          <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.16, ease: "easeOut" }}
+              style={{ fontSize: "18px", color: "var(--muted)", lineHeight: 1.6, maxWidth: "560px", fontWeight: 300, marginBottom: "32px" }}
+            >
             An emergency communication app for visually and hearing-impaired users —
             built so that in the moments that matter most, the app gets completely out of the way.
           </motion.p>
