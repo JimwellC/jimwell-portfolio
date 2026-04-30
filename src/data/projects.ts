@@ -37,8 +37,6 @@ export const projects: Project[] = [
     keyTech: ["WebSockets", "Redis"],
     images: [
       "/projects/auxtion/AuxtionLogo.png",
-      "/projects/auxtion/2.png",
-      "/projects/auxtion/3.png",
     ],
     glow: "rgba(99,102,241,0.08)",
     glowHover: "rgba(99,102,241,0.14)",
@@ -85,7 +83,6 @@ export const projects: Project[] = [
     keyTech: ["Flutter", "Firebase"],
     images: [
       "/projects/reachable/1.png",
-      "/projects/reachable/2.png",
     ],
     glow: "rgba(244,114,182,0.06)",
     glowHover: "rgba(244,114,182,0.12)",
