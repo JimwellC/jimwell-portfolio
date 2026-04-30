@@ -16,6 +16,7 @@ export type Project = {
   github: string;
   live: string;
   caseStudy?: string;
+  containImage?: boolean;
 };
 
 export const projects: Project[] = [
@@ -27,6 +28,7 @@ export const projects: Project[] = [
     featured: true,
     name: "Auxtion",
     tagline: "Live auction marketplace",
+    containImage: true,
     story:
       "Built a live auction marketplace because existing platforms couldn't handle the latency demands of real-time bidding. The hard part wasn't the bidding — it was making sure two people placing a bid at the exact same millisecond didn't both win.",
     detail:
@@ -34,7 +36,7 @@ export const projects: Project[] = [
     tech: ["WebSockets", "Redis", "React Native", "Node.js"],
     keyTech: ["WebSockets", "Redis"],
     images: [
-      "/projects/auxtion/1.png",
+      "/projects/auxtion/AuxtionLogo.png",
       "/projects/auxtion/2.png",
       "/projects/auxtion/3.png",
     ],
@@ -42,6 +44,7 @@ export const projects: Project[] = [
     glowHover: "rgba(99,102,241,0.14)",
     github: "https://github.com/JimwellC",
     live: "",
+    caseStudy: "/projects/auxtion",
   },
   {
     slug: "fad-fashiown",

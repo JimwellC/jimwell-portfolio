@@ -115,7 +115,7 @@ function ProjectCard({ project: p, onOpenLightbox }: {
                 src={p.images[current]}
                 alt={`${p.name} screenshot`}
                 fill
-                style={{ objectFit: "cover", cursor: "zoom-in" }}
+                style={{ objectFit: p.containImage ? "contain" : "cover", cursor: "zoom-in" }}
                 onClick={e => { e.stopPropagation(); onOpenLightbox(p.images, current); }}
               />
             </motion.div>
@@ -128,8 +128,29 @@ function ProjectCard({ project: p, onOpenLightbox }: {
           </div>
 
           {/* Badge */}
-          <div style={{ position: "absolute", top: "8px", right: "10px", zIndex: 2 }}>
-            <span style={{ fontSize: "10px", padding: "3px 9px", borderRadius: "20px", fontFamily: "var(--font-space-mono)", ...badgeStyles[p.badge.style] }}>{p.badge.label}</span>
+          <div style={{ position: "absolute", top: "8px", right: "10px", zIndex: 2, display: "flex", alignItems: "center", gap: "6px" }}>
+            {p.caseStudy && (
+              <a
+                href={p.caseStudy}
+                onClick={e => e.stopPropagation()}
+                style={{
+                  fontSize: "9px", color: "#fff", textDecoration: "none",
+                  fontFamily: "var(--font-space-mono)", padding: "3px 8px",
+                  borderRadius: "6px",
+                  background: "rgba(99,102,241,0.75)",
+                  border: "0.5px solid rgba(99,102,241,0.9)",
+                  whiteSpace: "nowrap", transition: "background 0.15s",
+                  backdropFilter: "blur(4px)",
+                }}
+                onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.background = "rgba(99,102,241,1)"}
+                onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.background = "rgba(99,102,241,0.75)"}
+              >
+                case study →
+              </a>
+            )}
+            <span style={{ fontSize: "10px", padding: "3px 9px", borderRadius: "20px", fontFamily: "var(--font-space-mono)", ...badgeStyles[p.badge.style] }}>
+              {p.badge.label}
+            </span>
           </div>
 
           {/* Nav arrows */}
@@ -187,19 +208,6 @@ function ProjectCard({ project: p, onOpenLightbox }: {
               onClick={e => e.stopPropagation()}
               style={{ fontSize: "11px", color: "var(--cyan)", textDecoration: "none", fontFamily: "var(--font-space-mono)" }}>
               live →
-            </a>
-          )}
-          {p.caseStudy && expanded && (
-            <a href={p.caseStudy}
-              onClick={e => e.stopPropagation()}
-              style={{
-                fontSize: "11px", color: "var(--pink)", textDecoration: "none",
-                fontFamily: "var(--font-space-mono)", padding: "4px 10px",
-                borderRadius: "8px", background: "rgba(244,114,182,0.08)",
-                border: "0.5px solid rgba(244,114,182,0.2)",
-              }}
-            >
-              view case study →
             </a>
           )}
           <button onClick={e => { e.stopPropagation(); setExpanded(v => !v); }}

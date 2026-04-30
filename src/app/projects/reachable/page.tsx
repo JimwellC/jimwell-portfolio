@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useCallback } from "react";
 import { createPortal } from "react-dom";
+import { caseStudySections } from "@/data/reachable";
 
 // ── Portal lightbox ──
 function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: () => void }) {
@@ -27,11 +28,6 @@ function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: ()
     document.body
   );
 }
-
-const screenshots = [
-  { src: "/projects/reachable/1.png", alt: "ReachAble home screen" },
-  { src: "/projects/reachable/2.png", alt: "ReachAble emergency trigger" },
-];
 
 const techStack = [
   { label: "Flutter", desc: "Cross-platform mobile framework" },
@@ -129,13 +125,13 @@ export default function ReachableCaseStudy() {
 
       <div className="col" style={{ paddingTop: "0", paddingBottom: "80px" }}>
 
-        {/* ── SCREENSHOTS ── */}
-        {screenshots.some(s => s.src) && (
-          <section style={{ padding: "56px 0", borderBottom: "0.5px solid var(--border)" }}>
+        {/* ── IMAGE SECTIONS ── */}
+        {caseStudySections.filter(s => s.images.length > 0).map(section => (
+          <section key={section.id} style={{ padding: "56px 0", borderBottom: "0.5px solid var(--border)" }}>
             <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
-              <div className="eyebrow">UI Showcase</div>
+              <div className="eyebrow">{section.title}</div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "12px" }}>
-                {screenshots.map((s, i) => (
+                {section.images.map((s, i) => (
                   <motion.div
                     key={i}
                     initial={{ opacity: 0, y: 16 }}
@@ -146,24 +142,32 @@ export default function ReachableCaseStudy() {
                     onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.borderColor = "var(--border2)"}
                     onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.borderColor = "var(--border)"}
                     style={{
-                        position: "relative", height: "320px", borderRadius: "16px",
-                        overflow: "hidden", background: "var(--s1)",
-                        border: "0.5px solid var(--border)", cursor: "zoom-in",
-                        transition: "border-color 0.2s",
+                      position: "relative", borderRadius: "16px",
+                      overflow: "hidden", background: "var(--s1)",
+                      border: "0.5px solid var(--border)", cursor: "zoom-in",
+                      transition: "border-color 0.2s",
                     }}
-                    >
-                    <Image src={s.src} alt={s.alt} fill style={{ objectFit: "cover", transition: "transform 0.3s" }}
-                      onMouseEnter={e => (e.currentTarget as HTMLImageElement).style.transform = "scale(1.03)"}
-                      onMouseLeave={e => (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"}
-                    />
-                    <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(8,9,16,0.5) 0%, transparent 60%)", pointerEvents: "none" }}/>
-                    <div style={{ position: "absolute", bottom: "10px", right: "10px", fontSize: "10px", color: "rgba(255,255,255,0.5)", fontFamily: "var(--font-space-mono)", background: "rgba(8,9,16,0.6)", padding: "2px 8px", borderRadius: "8px" }}>tap to expand ↗</div>
+                  >
+                    <div style={{ position: "relative", height: "320px" }}>
+                      <Image src={s.src} alt={s.alt} fill style={{ objectFit: "cover", transition: "transform 0.3s" }}
+                        onMouseEnter={e => (e.currentTarget as HTMLImageElement).style.transform = "scale(1.03)"}
+                        onMouseLeave={e => (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"}
+                      />
+                      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(8,9,16,0.5) 0%, transparent 60%)", pointerEvents: "none" }}/>
+                      <div style={{ position: "absolute", bottom: "10px", right: "10px", fontSize: "10px", color: "rgba(255,255,255,0.5)", fontFamily: "var(--font-space-mono)", background: "rgba(8,9,16,0.6)", padding: "2px 8px", borderRadius: "8px" }}>tap to expand ↗</div>
+                    </div>
+                    {/* Caption */}
+                    {s.caption && (
+                      <div style={{ padding: "10px 14px", fontSize: "11px", color: "var(--dim)", fontFamily: "var(--font-space-mono)" }}>
+                        {s.caption}
+                      </div>
+                    )}
                   </motion.div>
                 ))}
               </div>
             </motion.div>
           </section>
-        )}
+        ))}
 
         {/* ── PROBLEM ── */}
         <section style={{ padding: "56px 0", borderBottom: "0.5px solid var(--border)" }}>

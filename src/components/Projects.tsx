@@ -51,10 +51,11 @@ function Lightbox({ images, current, onClose, onPrev, onNext }: {
 }
 
 // ── Carousel — no internal lightbox ──
-function ImageCarousel({ images, name, onOpenLightbox }: {
+function ImageCarousel({ images, name, onOpenLightbox, containImage }: {
   images: string[];
   name: string;
   onOpenLightbox: (index: number) => void;
+  containImage?: boolean;
 }) {
   const [current, setCurrent] = useState(0);
 
@@ -72,7 +73,7 @@ function ImageCarousel({ images, name, onOpenLightbox }: {
               src={images[current]}
               alt={`${name} screenshot ${current + 1}`}
               fill
-              style={{ objectFit: "cover", cursor: "zoom-in" }}
+               style={{ objectFit: containImage ? "contain" : "cover", cursor: "zoom-in" }}
               onClick={e => { e.stopPropagation(); onOpenLightbox(current); }}
             />
           </motion.div>
@@ -159,9 +160,26 @@ function MobileProjectCard({ project: p, onOpenLightbox }: {
           </div>
 
           {/* Badge */}
-          <span style={{ position: "absolute", bottom: "8px", left: "10px", fontSize: "10px", padding: "2px 8px", borderRadius: "20px", fontFamily: "var(--font-space-mono)", ...badgeStyles[p.badge.style] }}>
-            {p.badge.label}
-          </span>
+          <div style={{ position: "absolute", bottom: "8px", left: "10px", display: "flex", alignItems: "center", gap: "5px" }}>
+            <span style={{ fontSize: "10px", padding: "2px 8px", borderRadius: "20px", fontFamily: "var(--font-space-mono)", ...badgeStyles[p.badge.style] }}>
+              {p.badge.label}
+            </span>
+            {p.caseStudy && (
+              <a
+                href={p.caseStudy}
+                onClick={e => e.stopPropagation()}
+                style={{
+                  fontSize: "9px", color: "#fff", textDecoration: "none",
+                  fontFamily: "var(--font-space-mono)", padding: "2px 7px",
+                  borderRadius: "6px", background: "rgba(99,102,241,0.5)",
+                  border: "0.5px solid rgba(99,102,241,0.6)",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                case study →
+              </a>
+            )}
+          </div>
 
           {/* Carousel arrows */}
           {p.images.length > 1 && (
@@ -234,7 +252,35 @@ function ProjectCard({ project: p, expanded, setExpanded, onOpenLightbox }: {
         <div style={{ padding: "20px 20px 0" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
             <span style={{ fontSize: "10px", color: "var(--dim)", fontFamily: "var(--font-space-mono)" }}>{p.num}</span>
-            <span style={{ fontSize: "10px", padding: "2px 8px", borderRadius: "20px", fontFamily: "var(--font-space-mono)", ...badgeStyles[p.badge.style] }}>{p.badge.label}</span>
+            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              {p.caseStudy && (
+                <a
+                  href={p.caseStudy}
+                  onClick={e => e.stopPropagation()}
+                  style={{
+                    fontSize: "10px", color: "var(--a2)", textDecoration: "none",
+                    fontFamily: "var(--font-space-mono)", padding: "2px 8px",
+                    borderRadius: "6px", background: "rgba(99,102,241,0.08)",
+                    border: "0.5px solid rgba(99,102,241,0.25)",
+                    transition: "background 0.15s, color 0.15s",
+                    whiteSpace: "nowrap",
+                  }}
+                  onMouseEnter={e => {
+                    (e.currentTarget as HTMLAnchorElement).style.background = "rgba(99,102,241,0.18)";
+                    (e.currentTarget as HTMLAnchorElement).style.color = "#fff";
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLAnchorElement).style.background = "rgba(99,102,241,0.08)";
+                    (e.currentTarget as HTMLAnchorElement).style.color = "var(--a2)";
+                  }}
+                >
+                  case study →
+                </a>
+              )}
+              <span style={{ fontSize: "10px", padding: "2px 8px", borderRadius: "20px", fontFamily: "var(--font-space-mono)", ...badgeStyles[p.badge.style] }}>
+                {p.badge.label}
+              </span>
+            </div>
           </div>
           <h3 style={{ fontSize: "17px", fontWeight: 600, color: "#eaecf6", marginBottom: "3px" }}>{p.name}</h3>
           <p style={{ fontSize: "11px", color: "var(--dim)", fontFamily: "var(--font-space-mono)", marginBottom: "12px" }}>{p.tagline}</p>
@@ -245,6 +291,7 @@ function ProjectCard({ project: p, expanded, setExpanded, onOpenLightbox }: {
             images={p.images}
             name={p.name}
             onOpenLightbox={(index) => onOpenLightbox(p.images, index)}
+            containImage={p.containImage}
           />
         </div>
 
@@ -269,22 +316,6 @@ function ProjectCard({ project: p, expanded, setExpanded, onOpenLightbox }: {
                 onClick={e => e.stopPropagation()}
                 style={{ fontSize: "11px", color: "var(--cyan)", textDecoration: "none", fontFamily: "var(--font-space-mono)" }}>
                 live →
-              </a>
-            )}
-            {p.caseStudy && isOpen && (
-              <a href={p.caseStudy}
-                onClick={e => e.stopPropagation()}
-                style={{
-                  fontSize: "11px", color: "var(--pink)", textDecoration: "none",
-                  fontFamily: "var(--font-space-mono)", padding: "4px 10px",
-                  borderRadius: "8px", background: "rgba(244,114,182,0.08)",
-                  border: "0.5px solid rgba(244,114,182,0.2)",
-                  transition: "background 0.15s",
-                }}
-                onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.background = "rgba(244,114,182,0.16)"}
-                onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.background = "rgba(244,114,182,0.08)"}
-              >
-                view case study →
               </a>
             )}
             <span style={{ marginLeft: "auto", fontSize: "11px", color: "var(--dim)", fontFamily: "var(--font-space-mono)" }}>
