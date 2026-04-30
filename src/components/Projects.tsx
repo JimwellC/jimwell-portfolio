@@ -66,7 +66,7 @@ function ImageCarousel({ images, name, onOpenLightbox, containImage }: {
 
   return (
     <div style={{ position: "relative", borderRadius: "10px", overflow: "hidden", marginBottom: "16px" }}>
-      <div style={{ position: "relative", height: "200px", background: "var(--s2)" }}>
+      <div style={{ position: "relative", height: "200px", background: containImage ? "#0d0f1e" : "var(--s2)" }}>
         <AnimatePresence mode="wait">
           <motion.div key={current} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }} style={{ position: "absolute", inset: 0 }}>
             <Image
