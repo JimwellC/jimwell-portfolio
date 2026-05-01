@@ -26,7 +26,14 @@ function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: ()
         onClick={e => e.stopPropagation()}
         style={{ position: "relative", borderRadius: "16px", overflow: "hidden", maxWidth: "90vw", maxHeight: "88vh", cursor: "default" }}
       >
-        <Image src={src} alt={alt} width={900} height={700} style={{ objectFit: "contain", maxHeight: "88vh", width: "auto", display: "block" }} />
+        <Image
+          src={src}
+          alt={alt}
+          width={900}
+          height={700}
+          sizes="(max-width: 768px) 90vw, 900px"  // ADD THIS
+          style={{ objectFit: "contain", maxHeight: "88vh", width: "auto", display: "block" }}
+        />
         <button onClick={onClose} style={{ position: "absolute", top: "12px", right: "12px", width: "32px", height: "32px", borderRadius: "50%", background: "rgba(8,9,16,0.85)", border: "0.5px solid rgba(255,255,255,0.15)", color: "#fff", fontSize: "16px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>✕</button>
       </motion.div>
       <div style={{ position: "absolute", bottom: "24px", fontSize: "11px", color: "rgba(255,255,255,0.25)", fontFamily: "var(--font-space-mono)" }}>click outside to close</div>
@@ -130,7 +137,12 @@ export default function AuctionCaseStudy() {
                     style={{ position: "relative", borderRadius: "16px", overflow: "hidden", background: "var(--s1)", border: "0.5px solid var(--border)", cursor: "zoom-in", transition: "border-color 0.2s" }}
                   >
                     <div style={{ position: "relative", height: "320px" }}>
-                      <Image src={s.src} alt={s.alt} fill style={{ objectFit: "cover", transition: "transform 0.3s" }}
+                      <Image
+                        src={s.src}
+                        alt={s.alt}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"  // ADD THIS
+                        style={{ objectFit: "cover", transition: "transform 0.3s" }}
                         onMouseEnter={e => (e.currentTarget as HTMLImageElement).style.transform = "scale(1.03)"}
                         onMouseLeave={e => (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"}
                       />

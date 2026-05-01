@@ -45,7 +45,15 @@ function CertLightbox({ cert, onClose }: { cert: Certificate; onClose: () => voi
         onClick={e => e.stopPropagation()}
         style={{ position: "relative", borderRadius: "16px", overflow: "hidden", maxWidth: "800px", width: "100%", border: "0.5px solid var(--border2)", boxShadow: "0 0 80px rgba(99,102,241,0.2)", cursor: "default" }}
       >
-        <Image key={cert.src} src={cert.src} alt={cert.alt} width={800} height={600} style={{ objectFit: "contain", width: "100%", height: "auto", display: "block" }} />
+        <Image
+          key={cert.src}
+          src={cert.src}
+          alt={cert.alt}
+          width={800}
+          height={600}
+          sizes="(max-width: 768px) 90vw, 800px"  // ADD THIS
+          style={{ objectFit: "contain", width: "100%", height: "auto", display: "block" }}
+        />
         <div style={{ padding: "16px 20px", background: "var(--s1)", borderTop: "0.5px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div>
             <div style={{ fontSize: "13px", fontWeight: 600, color: "#eaecf6", marginBottom: "2px" }}>{cert.title}</div>

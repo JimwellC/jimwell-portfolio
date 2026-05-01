@@ -73,7 +73,8 @@ function ImageCarousel({ images, name, onOpenLightbox, containImage }: {
               src={images[current]}
               alt={`${name} screenshot ${current + 1}`}
               fill
-               style={{ objectFit: containImage ? "contain" : "cover", cursor: "zoom-in" }}
+              sizes="(max-width: 768px) 100vw, 50vw"
+              style={{ objectFit: containImage ? "contain" : "cover", cursor: "zoom-in" }}
               onClick={e => { e.stopPropagation(); onOpenLightbox(current); }}
             />
           </motion.div>
@@ -146,6 +147,7 @@ function MobileProjectCard({ project: p, onOpenLightbox }: {
                 src={p.images[current]}
                 alt={`${p.name} screenshot ${current + 1}`}
                 fill
+                sizes="260px"
                 style={{ objectFit: "cover", cursor: "zoom-in" }}
                 onClick={() => onOpenLightbox(p.images, current)}
               />

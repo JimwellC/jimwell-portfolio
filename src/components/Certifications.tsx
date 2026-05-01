@@ -58,7 +58,14 @@ function CertRow({ cert, i, total }: {
               onClick={e => e.stopPropagation()}
               style={{ position: "relative", borderRadius: "16px", overflow: "hidden", maxWidth: "800px", width: "100%", border: "0.5px solid var(--border2)", boxShadow: "0 0 80px rgba(99,102,241,0.2)", cursor: "default" }}
             >
-              <Image src={cert.image} alt={cert.name} width={800} height={600} style={{ objectFit: "contain", width: "100%", height: "auto", display: "block" }} />
+              <Image
+                src={cert.image}
+                alt={cert.name}
+                width={800}
+                height={600}
+                sizes="(max-width: 768px) 90vw, 800px"  // ADD THIS
+                style={{ objectFit: "contain", width: "100%", height: "auto", display: "block" }}
+              />
               <div style={{ padding: "16px 20px", background: "var(--s1)", borderTop: "0.5px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <div>
                   <div style={{ fontSize: "13px", fontWeight: 600, color: "#eaecf6", marginBottom: "2px" }}>{cert.name}</div>
@@ -90,7 +97,13 @@ function MobileCertCard({ cert }: { cert: typeof certifications[0] }) {
       >
         {/* Certificate image preview */}
         <div style={{ position: "relative", height: "120px", background: "var(--s2)" }}>
-          <Image src={cert.image} alt={cert.name} fill style={{ objectFit: "cover" }} />
+          <Image
+            src={cert.image}
+            alt={cert.name}
+            fill
+            sizes="200px"  // ADD THIS
+            style={{ objectFit: "cover" }}
+          />
           <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(8,9,16,0.8) 0%, transparent 60%)", pointerEvents: "none" }}/>
           <span style={{ position: "absolute", bottom: "8px", left: "10px", fontSize: "9px", padding: "2px 7px", borderRadius: "10px", fontFamily: "var(--font-space-mono)", ...categoryStyles[cert.category] }}>
             {categoryLabels[cert.category]}
@@ -121,7 +134,14 @@ function MobileCertCard({ cert }: { cert: typeof certifications[0] }) {
               onClick={e => e.stopPropagation()}
               style={{ position: "relative", borderRadius: "16px", overflow: "hidden", maxWidth: "800px", width: "100%", border: "0.5px solid var(--border2)", cursor: "default" }}
             >
-              <Image src={cert.image} alt={cert.name} width={800} height={600} style={{ objectFit: "contain", width: "100%", height: "auto", display: "block" }} />
+              <Image
+                src={cert.image}
+                alt={cert.name}
+                width={800}
+                height={600}
+                sizes="(max-width: 768px) 90vw, 800px"  // ADD THIS
+                style={{ objectFit: "contain", width: "100%", height: "auto", display: "block" }}
+              />
               <div style={{ padding: "14px 18px", background: "var(--s1)", borderTop: "0.5px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <div>
                   <div style={{ fontSize: "13px", fontWeight: 600, color: "#eaecf6", marginBottom: "2px" }}>{cert.name}</div>

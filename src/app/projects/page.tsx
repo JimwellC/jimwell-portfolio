@@ -36,7 +36,14 @@ function Lightbox({ images, current, onClose, onPrev, onNext }: {
         onClick={e => e.stopPropagation()}
         style={{ position: "relative", maxWidth: "90vw", maxHeight: "85vh", borderRadius: "12px", overflow: "hidden", cursor: "default" }}
       >
-        <Image src={images[current]} alt={`screenshot ${current + 1}`} width={1200} height={800} style={{ objectFit: "contain", maxHeight: "85vh", width: "auto", display: "block" }} />
+        <Image
+          src={images[current]}
+          alt={`screenshot ${current + 1}`}
+          width={1200}
+          height={800}
+          sizes="(max-width: 768px) 90vw, 1200px"  // ADD THIS
+          style={{ objectFit: "contain", maxHeight: "85vh", width: "auto", display: "block" }}
+        />
         {images.length > 1 && (
           <>
             <button onClick={e => { e.stopPropagation(); onPrev(); }} style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", width: "36px", height: "36px", borderRadius: "50%", background: "rgba(8,9,16,0.8)", border: "0.5px solid rgba(255,255,255,0.2)", color: "#fff", fontSize: "18px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>‹</button>
@@ -115,6 +122,7 @@ function ProjectCard({ project: p, onOpenLightbox }: {
                 src={p.images[current]}
                 alt={`${p.name} screenshot`}
                 fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 style={{ objectFit: p.containImage ? "contain" : "cover", cursor: "zoom-in" }}
                 onClick={e => { e.stopPropagation(); onOpenLightbox(p.images, current); }}
               />

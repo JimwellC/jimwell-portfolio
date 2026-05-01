@@ -29,7 +29,14 @@ export default function Hero() {
               onClick={e => e.stopPropagation()}
               style={{ position: "relative", borderRadius: "20px", overflow: "hidden", border: "0.5px solid var(--border2)", boxShadow: "0 0 80px rgba(99,102,241,0.25)", cursor: "default" }}
             >
-              <Image src="/images/jimwell.jpg" alt="Jimwell Calma" width={400} height={500} style={{ objectFit: "cover", display: "block" }} />
+              <Image
+                src="/images/jimwell.jpg"
+                alt="Jimwell Calma"
+                width={400}
+                height={500}
+                sizes="(max-width: 640px) 90vw, 400px"
+                style={{ objectFit: "cover", display: "block" }}
+              />
               <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "32px 20px 20px", background: "linear-gradient(transparent, rgba(8,9,16,0.9))" }}>
                 <div style={{ fontSize: "16px", fontWeight: 600, color: "#eaecf6", marginBottom: "2px" }}>Jimwell Calma</div>
                 <div style={{ fontSize: "11px", color: "var(--a2)", fontFamily: "var(--font-space-mono)" }}>Full Stack & Mobile Developer</div>
@@ -64,7 +71,14 @@ export default function Hero() {
               onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.boxShadow = "0 0 0 3px rgba(99,102,241,0.3)"}
               onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.boxShadow = "0 0 0 3px rgba(99,102,241,0.1)"}
             >
-              <Image src="/images/jimwell.jpg" alt="Jimwell Calma" fill style={{ objectFit: "cover", objectPosition: "center top" }} priority />
+              <Image
+                src="/images/jimwell.jpg"
+                alt="Jimwell Calma"
+                fill
+                sizes="48px"
+                style={{ objectFit: "cover", objectPosition: "center top" }}
+                priority
+              />
               {/* Online dot */}
               <div style={{ position: "absolute", bottom: "2px", right: "2px", width: "9px", height: "9px", borderRadius: "50%", background: "var(--green)", border: "2px solid var(--bg)", animation: "pulse-dot 2s ease infinite" }}/>
             </div>
