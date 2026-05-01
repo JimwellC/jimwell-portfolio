@@ -92,7 +92,7 @@ export const certifications: Certificate[] = [
   date: "2024",
   category: "seminar",
   featured: true,
-  image: "/certificates/CG-seminar.jpg",
+  image: "/certificates/CG-seminar1.jpg",
   color: "var(--green)",
   dot: "rgba(74,222,128,0.5)",
   href: "",

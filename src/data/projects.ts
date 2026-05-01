@@ -24,7 +24,7 @@ export const projects: Project[] = [
     slug: "auxtion",
     num: "01",
     badge: { label: "● live", style: "live" },
-    category: ["mobile", "web"],
+    category: ["mobile"],
     featured: true,
     name: "Auxtion",
     tagline: "Live auction marketplace",
