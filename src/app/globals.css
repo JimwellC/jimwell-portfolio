@@ -88,6 +88,17 @@ body {
 .projects-mobile div::-webkit-scrollbar { display: none; }
 .certs-mobile div::-webkit-scrollbar { display: none; }
 
+/* ── Footer ── */
+.footer-links {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.footer-link-short { display: none; }
+.footer-link-full  { display: inline; }
+
 /* ── Animations ── */
 @keyframes marquee-scroll {
   0%   { transform: translateX(0); }
@@ -136,6 +147,22 @@ body {
   nav .col {
     padding-left: 20px !important;
     padding-right: 20px !important;
+  }
+
+    /* Footer */
+  .footer-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 24px;
+    width: 100%;
+  }
+  .footer-link-full  { display: none; }
+  .footer-link-short { display: inline; }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 16px !important;
   }
 }
 
