@@ -126,7 +126,7 @@ export default function Hero() {
               background: "linear-gradient(135deg, var(--accent), #4f46e5)",
               whiteSpace: "nowrap",
             }}>See my work</a>
-            <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" style={{
+            <a href="/Jimwell_Calma_CV.pdf" target="_blank" rel="noopener noreferrer" style={{
               padding: "11px 22px", borderRadius: "100px", fontSize: "14px",
               color: "var(--text)", textDecoration: "none",
               border: "0.5px solid rgba(255,255,255,0.12)",

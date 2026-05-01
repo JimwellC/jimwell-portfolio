@@ -274,7 +274,7 @@ export default function Nav() {
                   hire me ↗
                 </a>
                 <a
-                  href="/resume.pdf"
+                  href="/Jimwell_Calma_CV.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={closeMenu}
