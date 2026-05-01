@@ -136,26 +136,7 @@ function ProjectCard({ project: p, onOpenLightbox }: {
           </div>
 
           {/* Badge */}
-          <div style={{ position: "absolute", top: "8px", right: "10px", zIndex: 2, display: "flex", alignItems: "center", gap: "6px" }}>
-            {p.caseStudy && (
-              <a
-                href={p.caseStudy}
-                onClick={e => e.stopPropagation()}
-                style={{
-                  fontSize: "9px", color: "#fff", textDecoration: "none",
-                  fontFamily: "var(--font-space-mono)", padding: "3px 8px",
-                  borderRadius: "6px",
-                  background: "rgba(99,102,241,0.75)",
-                  border: "0.5px solid rgba(99,102,241,0.9)",
-                  whiteSpace: "nowrap", transition: "background 0.15s",
-                  backdropFilter: "blur(4px)",
-                }}
-                onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.background = "rgba(99,102,241,1)"}
-                onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.background = "rgba(99,102,241,0.75)"}
-              >
-                case study →
-              </a>
-            )}
+          <div style={{ position: "absolute", top: "8px", right: "10px", zIndex: 2 }}>
             <span style={{ fontSize: "10px", padding: "3px 9px", borderRadius: "20px", fontFamily: "var(--font-space-mono)", ...badgeStyles[p.badge.style] }}>
               {p.badge.label}
             </span>
@@ -175,8 +156,29 @@ function ProjectCard({ project: p, onOpenLightbox }: {
       {/* Content */}
       <div style={{ padding: "16px", position: "relative", zIndex: 2 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "6px" }}>
-          <div>
-            <h3 style={{ fontSize: "16px", fontWeight: 600, color: "#eaecf6", marginBottom: "2px" }}>{p.name}</h3>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "2px", flexWrap: "wrap" }}>
+              <h3 style={{ fontSize: "16px", fontWeight: 600, color: "#eaecf6" }}>{p.name}</h3>
+              {p.caseStudy && (
+                <a
+                  href={p.caseStudy}
+                  onClick={e => e.stopPropagation()}
+                  style={{
+                    fontSize: "9px", color: "#fff", textDecoration: "none",
+                    fontFamily: "var(--font-space-mono)", padding: "3px 8px",
+                    borderRadius: "6px",
+                    background: "rgba(99,102,241,0.8)",
+                    border: "0.5px solid rgba(99,102,241,0.95)",
+                    whiteSpace: "nowrap",
+                    flexShrink: 0,
+                  }}
+                  onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.background = "rgba(99,102,241,1)"}
+                  onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.background = "rgba(99,102,241,0.8)"}
+                >
+                  case study →
+                </a>
+              )}
+            </div>
             <p style={{ fontSize: "11px", color: "var(--dim)", fontFamily: "var(--font-space-mono)" }}>{p.tagline}</p>
           </div>
           <span style={{ fontSize: "10px", color: "var(--dim)", fontFamily: "var(--font-space-mono)", flexShrink: 0, marginLeft: "8px", marginTop: "2px" }}>{p.num}</span>

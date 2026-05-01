@@ -162,25 +162,10 @@ function MobileProjectCard({ project: p, onOpenLightbox }: {
           </div>
 
           {/* Badge */}
-          <div style={{ position: "absolute", bottom: "8px", left: "10px", display: "flex", alignItems: "center", gap: "5px" }}>
+          <div style={{ position: "absolute", bottom: "8px", left: "10px" }}>
             <span style={{ fontSize: "10px", padding: "2px 8px", borderRadius: "20px", fontFamily: "var(--font-space-mono)", ...badgeStyles[p.badge.style] }}>
               {p.badge.label}
             </span>
-            {p.caseStudy && (
-              <a
-                href={p.caseStudy}
-                onClick={e => e.stopPropagation()}
-                style={{
-                  fontSize: "9px", color: "#fff", textDecoration: "none",
-                  fontFamily: "var(--font-space-mono)", padding: "2px 7px",
-                  borderRadius: "6px", background: "rgba(99,102,241,0.5)",
-                  border: "0.5px solid rgba(99,102,241,0.6)",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                case study →
-              </a>
-            )}
           </div>
 
           {/* Carousel arrows */}
@@ -203,19 +188,40 @@ function MobileProjectCard({ project: p, onOpenLightbox }: {
       )}
 
       <div style={{ padding: "12px 14px" }}>
-        <h3 style={{ fontSize: "14px", fontWeight: 600, color: "#eaecf6", marginBottom: "3px" }}>{p.name}</h3>
-        <p style={{ fontSize: "10px", color: "var(--dim)", fontFamily: "var(--font-space-mono)", marginBottom: "8px" }}>{p.tagline}</p>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "4px" }}>
-            {p.keyTech.map(t => (
-              <span key={t} style={{ fontSize: "9px", padding: "1px 6px", borderRadius: "4px", background: "rgba(99,102,241,0.08)", border: "0.5px solid rgba(99,102,241,0.25)", color: "var(--a2)", fontFamily: "var(--font-space-mono)" }}>{t}</span>
-            ))}
-          </div>
-          <Link href="/projects" style={{ fontSize: "10px", color: "var(--dim)", textDecoration: "none", fontFamily: "var(--font-space-mono)", whiteSpace: "nowrap", marginLeft: "8px" }}>
-            details →
-          </Link>
-        </div>
+      {/* Title row with case study button */}
+      <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "3px" }}>
+        <h3 style={{ fontSize: "14px", fontWeight: 600, color: "#eaecf6" }}>{p.name}</h3>
+        {p.caseStudy && (
+          <a
+            href={p.caseStudy}
+            onClick={e => e.stopPropagation()}
+            style={{
+              fontSize: "8px", color: "#fff", textDecoration: "none",
+              fontFamily: "var(--font-space-mono)", padding: "2px 6px",
+              borderRadius: "5px",
+              background: "rgba(99,102,241,0.8)",
+              border: "0.5px solid rgba(99,102,241,0.95)",
+              whiteSpace: "nowrap",
+              flexShrink: 0,
+            }}
+          >
+            case study →
+          </a>
+        )}
       </div>
+      
+      <p style={{ fontSize: "10px", color: "var(--dim)", fontFamily: "var(--font-space-mono)", marginBottom: "8px" }}>{p.tagline}</p>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "4px" }}>
+          {p.keyTech.map(t => (
+            <span key={t} style={{ fontSize: "9px", padding: "1px 6px", borderRadius: "4px", background: "rgba(99,102,241,0.08)", border: "0.5px solid rgba(99,102,241,0.25)", color: "var(--a2)", fontFamily: "var(--font-space-mono)" }}>{t}</span>
+          ))}
+        </div>
+        <Link href="/projects" style={{ fontSize: "10px", color: "var(--dim)", textDecoration: "none", fontFamily: "var(--font-space-mono)", whiteSpace: "nowrap", marginLeft: "8px" }}>
+          details →
+        </Link>
+      </div>
+    </div>
     </div>
   );
 }
