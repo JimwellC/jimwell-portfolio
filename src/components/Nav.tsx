@@ -294,7 +294,7 @@ export default function Nav() {
                 <div style={{ display: "flex", gap: "8px", marginTop: "4px" }}>
                   {[
                     { label: "GitHub", href: "https://github.com/JimwellC" },
-                    { label: "LinkedIn", href: "https://linkedin.com/in/jimwell-calma-9420b12b1" },
+                    { label: "LinkedIn", href: "https://linkedin.com/in/jimwellcalma" },
                   ].map(s => (
                     <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
                       onClick={closeMenu}

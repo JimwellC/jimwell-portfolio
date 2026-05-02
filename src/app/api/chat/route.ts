@@ -14,7 +14,7 @@ ABOUT JIMWELL
 - Email: jimwellwork28@gmail.com
 - GitHub: github.com/JimwellC
 - Portfolio: jimwell-portfolio.vercel.app
-- LinkedIn: linkedin.com/in/jimwell-calma-9420b12b1
+- LinkedIn: linkedin.com/in/jimwellcalma
 
 SKILLS
 - Mobile: React Native (Expo), Flutter

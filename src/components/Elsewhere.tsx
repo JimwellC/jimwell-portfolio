@@ -15,7 +15,7 @@ const socials = [
     icon: "LI",
     name: "LinkedIn",
     handle: "jimwell-calma",
-    href: "https://linkedin.com/in/jimwell-calma-9420b12b1",
+    href: "https://linkedin.com/in/jimwellcalma",
     accent: "rgba(10,102,194,0.1)",
     accentHover: "rgba(10,102,194,0.2)",
     borderHover: "rgba(10,102,194,0.4)",
@@ -140,7 +140,7 @@ export default function Elsewhere() {
             <div style={{ display: "flex", gap: "8px" }}>
               <a
               
-                href="https://linkedin.com/in/jimwell-calma-9420b12b1"
+                href="https://linkedin.com/in/jimwellcalma"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{

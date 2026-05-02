@@ -24,7 +24,7 @@ export default function Footer() {
       ),
     },
     {
-      href: "https://linkedin.com/in/jimwell-calma-9420b12b1",
+      href: "https://linkedin.com/in/jimwellcalma",
       label: "LinkedIn",
       shortLabel: "LinkedIn",
       target: "_blank",
