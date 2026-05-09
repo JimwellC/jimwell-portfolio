@@ -370,8 +370,8 @@ export default function ReachableCaseStudy() {
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "16px" }}>
             <div>
               <div style={{ fontSize: "11px", color: "var(--dim)", fontFamily: "var(--font-space-mono)", marginBottom: "6px" }}>Next project</div>
-              <Link href="/projects/auxtion" style={{ fontSize: "16px", fontWeight: 600, color: "var(--a2)", textDecoration: "none" }}>
-                Auxtion — Live Auction Marketplace →
+              <Link href="/projects/internproof" style={{ fontSize: "16px", fontWeight: 600, color: "var(--a2)", textDecoration: "none" }}>
+                InternProof — Blockchain OJT Logbook →
               </Link>
             </div>
             <div style={{ display: "flex", gap: "10px" }}>
