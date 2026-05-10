@@ -98,13 +98,13 @@ export const projects: Project[] = [
     featured: false,
     name: "InternProof",
     tagline: "Blockchain-verified OJT logbook system",
-    story:
-      "Started as a school requirement — then I kept going after graduation and polished it into a production-grade system. Paper OJT logbooks are easy to fake. InternProof puts every clock-in, task, and signature on Ethereum — verifiable by anyone, falsifiable by no one.",
-    detail:
-      "Deployed a UUPS upgradeable Solidity smart contract at 23,531 / 24,576 bytes — engineered to stay under Ethereum's hard size limit. IPFS proof images via Pinata, CID stored permanently on-chain. Four role types with on-chain access control: Student, Supervisor, Coordinator, Admin. PDF certificates generated client-side with jsPDF.",
+    containImage: true,                              // ← add this
+    story: "Started as a school requirement — then I kept going after graduation and polished it into a production-grade system. Paper OJT logbooks are easy to fake. InternProof puts every clock-in, task, and signature on Ethereum — verifiable by anyone, falsifiable by no one.",
+    detail: "Deployed a UUPS upgradeable Solidity smart contract at 23,531 / 24,576 bytes — engineered to stay under Ethereum's hard size limit. IPFS proof images via Pinata, CID stored permanently on-chain. Four role types with on-chain access control: Student, Supervisor, Coordinator, Admin. PDF certificates generated client-side with jsPDF.",
     tech: ["Solidity", "Next.js", "ethers.js", "Hardhat", "IPFS", "TypeScript"],
     keyTech: ["Solidity", "ethers.js"],
     images: [
+      "/projects/internproof/logo.png",              // ← logo first
       "/projects/internproof/landing.png",
     ],
     glow: "rgba(245,158,11,0.06)",
@@ -139,4 +139,5 @@ export const badgeStyles: Record<string, React.CSSProperties> = {
   saas:   { background: "rgba(99,102,241,0.08)",  border: "0.5px solid rgba(99,102,241,0.2)",  color: "var(--a2)" },
   thesis: { background: "rgba(244,114,182,0.08)", border: "0.5px solid rgba(244,114,182,0.2)", color: "var(--pink)" },
   client: { background: "rgba(34,211,238,0.08)",  border: "0.5px solid rgba(34,211,238,0.2)",  color: "var(--cyan)" },
+  web3:   { background: "rgba(245,158,11,0.08)",  border: "0.5px solid rgba(245,158,11,0.25)", color: "#f59e0b" },  // ← add this
 };
