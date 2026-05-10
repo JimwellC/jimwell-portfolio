@@ -104,7 +104,7 @@ export const projects: Project[] = [
     tech: ["Solidity", "Next.js", "ethers.js", "Hardhat", "IPFS", "TypeScript"],
     keyTech: ["Solidity", "ethers.js"],
     images: [
-      "/projects/internproof/logo.png",              // ← logo first
+      "/projects/internproof/internproofLogo.png",              // ← logo first
       "/projects/internproof/landing.png",
     ],
     glow: "rgba(245,158,11,0.06)",

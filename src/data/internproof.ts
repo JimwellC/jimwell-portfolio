@@ -6,7 +6,7 @@ export type InternProofImage = {
 
 export const internproofImages: InternProofImage[] = [
   {
-    src: "/projects/internproof/logo.png",         // ← add this first
+    src: "/projects/internproof/internproofLogo.png",         // ← add this first
     label: "InternProof",
     desc: "Blockchain-verified OJT logbook system on Ethereum Sepolia.",
   },
