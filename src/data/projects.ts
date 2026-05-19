@@ -82,7 +82,7 @@ export const projects: Project[] = [
     tech: ["Flutter", "Firebase", "GPS APIs", "Voice Commands"],
     keyTech: ["Flutter", "Firebase"],
     images: [
-      "/projects/reachable/1.png",
+      "/projects/reachable/logo.png",
     ],
     glow: "rgba(244,114,182,0.06)",
     glowHover: "rgba(244,114,182,0.12)",
