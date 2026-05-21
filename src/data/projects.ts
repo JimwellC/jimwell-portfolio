@@ -46,6 +46,7 @@ export const projects: Project[] = [
   },
   {
     slug: "fad-fashiown",
+    containImage: true,
     num: "02",
     badge: { label: "◆ saas", style: "saas" },
     category: ["web", "saas"],
@@ -59,6 +60,7 @@ export const projects: Project[] = [
     tech: ["NestJS", "Socket.IO", "PostgreSQL", "Redis"],
     keyTech: ["NestJS", "Socket.IO"],
     images: [
+      "/projects/fad-fashiown/logo.jpg",
       "/projects/fad-fashiown/1.png",
       "/projects/fad-fashiown/2.png",
     ],
@@ -69,6 +71,7 @@ export const projects: Project[] = [
   },
   {
     slug: "reachable",
+    containImage: true,
     num: "03",
     badge: { label: "◈ thesis", style: "thesis" },
     category: ["mobile", "thesis"],

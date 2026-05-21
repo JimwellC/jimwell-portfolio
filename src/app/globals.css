@@ -99,6 +99,37 @@ body {
 .footer-link-short { display: none; }
 .footer-link-full  { display: inline; }
 
+/* ── ReachAble Carousel ── */
+.reachable-carousel-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+.reachable-carousel-prev,
+.reachable-carousel-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--s1);
+  border: 0.5px solid var(--border);
+  color: var(--text);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s;
+  z-index: 2;
+}
+
+.reachable-carousel-prev { left: -52px; }
+.reachable-carousel-next { right: -52px; }
+
 /* ── Animations ── */
 @keyframes marquee-scroll {
   0%   { transform: translateX(0); }
@@ -164,6 +195,33 @@ body {
     align-items: flex-start !important;
     gap: 16px !important;
   }
+
+  .reachable-carousel-wrapper {
+    max-width: 280px;
+  }
+
+  /* Move arrows below image on mobile */
+  .reachable-carousel-prev,
+  .reachable-carousel-next {
+    position: static;
+    transform: none;
+  }
+
+  .reachable-carousel-arrows {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .stats-grid   { grid-template-columns: repeat(2, 1fr) !important; }
+  .prose-grid   { grid-template-columns: 1fr !important; gap: 24px !important; }
+  .roles-grid   { grid-template-columns: repeat(2, 1fr) !important; }
+  .stack-grid   { grid-template-columns: repeat(2, 1fr) !important; }
+  .next-grid    { grid-template-columns: 1fr !important; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .decision-row { grid-template-columns: 1fr !important; gap: 12px !important; }
+  
 }
 
 /* ── Responsive: small mobile (≤640px) ── */
@@ -176,4 +234,15 @@ body {
 @media (max-width: 480px) {
   .projects-page-grid { grid-template-columns: 1fr !important; }
   .certs-page-grid    { grid-template-columns: 1fr !important; }
+
+  .roles-grid   { grid-template-columns: 1fr !important; }
+  .stack-grid   { grid-template-columns: 1fr !important; }
+  .gallery-grid { grid-template-columns: 1fr !important; }
+  .next-grid    { grid-template-columns: 1fr !important; }
+}
+
+@media (min-width: 769px) {
+  .reachable-carousel-arrows {
+    display: contents;
+  }
 }

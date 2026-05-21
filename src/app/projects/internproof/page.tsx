@@ -45,6 +45,72 @@ const stats = [
   { value: "<$1",    label: "Per record",       sub: "gas cost on Sepolia" },
 ];
 
+function InternProofCarousel({ images, openLightbox }: {
+  images: typeof internproofImages;
+  openLightbox: (i: number) => void;
+}) {
+  const [current, setCurrent] = useState(0);
+
+  const prev = () => setCurrent(i => i === 0 ? images.length - 1 : i - 1);
+  const next = () => setCurrent(i => i === images.length - 1 ? 0 : i + 1);
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
+
+      {/* Card */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={current}
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -40 }}
+          transition={{ duration: 0.2 }}
+          onClick={() => openLightbox(current)}
+          className="gallery-card"
+          style={{ width: "100%", cursor: "zoom-in" }}
+        >
+          <div style={{ position: "relative", height: "200px", background: "var(--s2)", overflow: "hidden" }}>
+            <Image
+              src={images[current].src}
+              alt={images[current].label}
+              fill
+              sizes="90vw"
+              style={{ objectFit: "cover", objectPosition: "top" }}
+              className="gallery-img"
+            />
+            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(8,9,16,0.65) 0%, transparent 50%)", pointerEvents: "none" }} />
+            <div style={{ position: "absolute", top: "8px", right: "8px", padding: "3px 8px", borderRadius: "6px", background: "rgba(8,9,16,0.75)", border: `0.5px solid ${AMBER_BORDER}`, fontSize: "10px", color: AMBER, fontFamily: "var(--font-space-mono)" }}>
+              {String(current + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}
+            </div>
+          </div>
+          <div style={{ padding: "14px 16px" }}>
+            <div style={{ fontSize: "13px", fontWeight: 600, color: "#eaecf6", marginBottom: "4px" }}>{images[current].label}</div>
+            <div style={{ fontSize: "11px", color: "var(--muted)", lineHeight: 1.6 }}>{images[current].desc}</div>
+          </div>
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Arrows + dots */}
+      <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+        <button onClick={prev}
+          style={{ width: "36px", height: "36px", borderRadius: "50%", background: "var(--s1)", border: "0.5px solid var(--border)", color: "var(--text)", fontSize: "18px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>‹</button>
+
+        <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
+          {images.map((_, i) => (
+            <button key={i} onClick={() => setCurrent(i)}
+              style={{ width: i === current ? "20px" : "6px", height: "6px", borderRadius: "3px", border: "none", background: i === current ? AMBER : "rgba(255,255,255,0.15)", cursor: "pointer", padding: 0, transition: "width 0.2s, background 0.2s" }}
+            />
+          ))}
+        </div>
+
+        <button onClick={next}
+          style={{ width: "36px", height: "36px", borderRadius: "50%", background: "var(--s1)", border: "0.5px solid var(--border)", color: "var(--text)", fontSize: "18px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>›</button>
+      </div>
+
+    </div>
+  );
+}
+
 export default function InternProofPage() {
   // null = closed, number = index open in lightbox
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
@@ -195,7 +261,7 @@ export default function InternProofPage() {
         </section>
 
         {/* ══════════════════════════════════════════════
-            SCREENSHOTS GALLERY
+          SCREENSHOTS GALLERY
         ══════════════════════════════════════════════ */}
         <section className="section">
           <div className="col">
@@ -206,7 +272,9 @@ export default function InternProofPage() {
             <p style={{ fontSize: "14px", color: "var(--muted)", marginBottom: "32px", maxWidth: "480px" }}>
               Click any screenshot to expand and navigate between them.
             </p>
-            <div className="gallery-grid">
+
+            {/* Desktop grid */}
+            <div className="gallery-grid hide-mobile">
               {internproofImages.map((img, i) => (
                 <div
                   key={img.src}
@@ -218,7 +286,7 @@ export default function InternProofPage() {
                       src={img.src}
                       alt={img.label}
                       fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      sizes="(max-width: 1024px) 50vw, 33vw"
                       style={{ objectFit: "cover", objectPosition: "top", transition: "transform 0.3s ease" }}
                       className="gallery-img"
                     />
@@ -234,9 +302,14 @@ export default function InternProofPage() {
                 </div>
               ))}
             </div>
+
+            {/* Mobile carousel */}
+            <div className="show-mobile" style={{ flexDirection: "column", gap: "20px" }}>
+              <InternProofCarousel images={internproofImages} openLightbox={openLightbox} />
+            </div>
+
           </div>
         </section>
-
         {/* ══════════════════════════════════════════════
             PROBLEM / SOLUTION
         ══════════════════════════════════════════════ */}

@@ -57,6 +57,91 @@ const fade = {
   show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
 };
 
+function ReachableCarousel({ images, openLightbox }: {
+  images: { src: string; alt: string; caption?: string }[];
+  openLightbox: (src: string, alt: string) => void;
+}) {
+  const [current, setCurrent] = useState(0);
+
+  const prev = () => setCurrent(i => i === 0 ? images.length - 1 : i - 1);
+  const next = () => setCurrent(i => i === images.length - 1 ? 0 : i + 1);
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "20px" }}>
+
+      {/* Wrapper — arrows are siblings on desktop, below on mobile */}
+      <div className="reachable-carousel-wrapper">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={current}
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -40 }}
+            transition={{ duration: 0.22 }}
+            onClick={() => openLightbox(images[current].src, images[current].alt)}
+            style={{
+              position: "relative", borderRadius: "24px", overflow: "hidden",
+              border: "0.5px solid var(--border2)", cursor: "zoom-in",
+              boxShadow: "0 0 40px rgba(99,102,241,0.1)",
+              background: "var(--s1)",
+            }}
+          >
+            <Image
+              src={images[current].src}
+              alt={images[current].alt}
+              width={360}
+              height={640}
+              sizes="(max-width: 768px) 280px, 360px"
+              style={{ width: "100%", height: "auto", display: "block" }}
+            />
+            <div style={{ position: "absolute", bottom: "12px", right: "12px", padding: "4px 10px", borderRadius: "8px", background: "rgba(8,9,16,0.75)", border: "0.5px solid rgba(255,255,255,0.1)", fontSize: "10px", color: "rgba(255,255,255,0.5)", fontFamily: "var(--font-space-mono)" }}>
+              tap to expand ↗
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Desktop arrows — positioned absolute via CSS */}
+        <div className="reachable-carousel-arrows">
+          <button
+            className="reachable-carousel-prev"
+            onClick={prev}
+            onMouseEnter={e => (e.currentTarget.style.borderColor = "var(--border2)")}
+            onMouseLeave={e => (e.currentTarget.style.borderColor = "var(--border)")}
+          >‹</button>
+          <button
+            className="reachable-carousel-next"
+            onClick={next}
+            onMouseEnter={e => (e.currentTarget.style.borderColor = "var(--border2)")}
+            onMouseLeave={e => (e.currentTarget.style.borderColor = "var(--border)")}
+          >›</button>
+        </div>
+      </div>
+
+      {/* Caption */}
+      {images[current].caption && (
+        <div style={{ fontSize: "12px", color: "var(--muted)", fontFamily: "var(--font-space-mono)", textAlign: "center", padding: "0 16px" }}>
+          {images[current].caption}
+        </div>
+      )}
+
+      {/* Dots */}
+      <div style={{ display: "flex", gap: "6px", alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
+        {images.map((_, i) => (
+          <button key={i} onClick={() => setCurrent(i)}
+            style={{ width: i === current ? "20px" : "6px", height: "6px", borderRadius: "3px", border: "none", background: i === current ? "var(--accent)" : "rgba(255,255,255,0.15)", cursor: "pointer", padding: 0, transition: "width 0.2s, background 0.2s" }}
+          />
+        ))}
+      </div>
+
+      {/* Counter */}
+      <div style={{ fontSize: "11px", color: "var(--dim)", fontFamily: "var(--font-space-mono)" }}>
+        {current + 1} / {images.length}
+      </div>
+
+    </div>
+  );
+}
+
 export default function ReachableCaseStudy() {
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const [lightboxAlt, setLightboxAlt] = useState("");
@@ -132,51 +217,12 @@ export default function ReachableCaseStudy() {
 
       <div className="col" style={{ paddingTop: "0", paddingBottom: "80px" }}>
 
-        {/* ── IMAGE SECTIONS ── */}
+      {/* ── IMAGE CAROUSEL ── */}
         {caseStudySections.filter(s => s.images.length > 0).map(section => (
           <section key={section.id} style={{ padding: "56px 0", borderBottom: "0.5px solid var(--border)" }}>
             <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
               <div className="eyebrow">{section.title}</div>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "12px" }}>
-                {section.images.map((s, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.08, duration: 0.4 }}
-                    onClick={() => openLightbox(s.src, s.alt)}
-                    onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.borderColor = "var(--border2)"}
-                    onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.borderColor = "var(--border)"}
-                    style={{
-                      position: "relative", borderRadius: "16px",
-                      overflow: "hidden", background: "var(--s1)",
-                      border: "0.5px solid var(--border)", cursor: "zoom-in",
-                      transition: "border-color 0.2s",
-                    }}
-                  >
-                    <div style={{ position: "relative", height: "320px" }}>
-                      <Image
-                        src={s.src}
-                        alt={s.alt}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"  // ADD THIS
-                        style={{ objectFit: "cover", transition: "transform 0.3s" }}
-                        onMouseEnter={e => (e.currentTarget as HTMLImageElement).style.transform = "scale(1.03)"}
-                        onMouseLeave={e => (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"}
-                      />
-                      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(8,9,16,0.5) 0%, transparent 60%)", pointerEvents: "none" }}/>
-                      <div style={{ position: "absolute", bottom: "10px", right: "10px", fontSize: "10px", color: "rgba(255,255,255,0.5)", fontFamily: "var(--font-space-mono)", background: "rgba(8,9,16,0.6)", padding: "2px 8px", borderRadius: "8px" }}>tap to expand ↗</div>
-                    </div>
-                    {/* Caption */}
-                    {s.caption && (
-                      <div style={{ padding: "10px 14px", fontSize: "11px", color: "var(--dim)", fontFamily: "var(--font-space-mono)" }}>
-                        {s.caption}
-                      </div>
-                    )}
-                  </motion.div>
-                ))}
-              </div>
+              <ReachableCarousel images={section.images} openLightbox={openLightbox} />
             </motion.div>
           </section>
         ))}
