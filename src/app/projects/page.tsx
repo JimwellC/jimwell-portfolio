@@ -175,7 +175,7 @@ function ProjectCard({ project: p, onOpenLightbox }: {
                   onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.background = "rgba(99,102,241,1)"}
                   onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.background = "rgba(99,102,241,0.8)"}
                 >
-                  case study →
+                  View case study →
                 </a>
               )}
             </div>
