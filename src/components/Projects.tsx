@@ -205,7 +205,7 @@ function MobileProjectCard({ project: p, onOpenLightbox }: {
               flexShrink: 0,
             }}
           >
-            case study →
+            View case study →
           </a>
         )}
       </div>
@@ -282,7 +282,7 @@ function ProjectCard({ project: p, expanded, setExpanded, onOpenLightbox }: {
                     (e.currentTarget as HTMLAnchorElement).style.color = "var(--a2)";
                   }}
                 >
-                  case study →
+                  View case study →
                 </a>
               )}
               <span style={{ fontSize: "10px", padding: "2px 8px", borderRadius: "20px", fontFamily: "var(--font-space-mono)", ...badgeStyles[p.badge.style] }}>
