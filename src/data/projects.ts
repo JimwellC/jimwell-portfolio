@@ -116,6 +116,32 @@ export const projects: Project[] = [
     live: "https://internproof.vercel.app",
     caseStudy: "/projects/internproof",
   },
+  {
+  slug: "fad-elan",
+  num: "05",
+  badge: { label: "◆ client", style: "client" },
+  category: ["web"],
+  featured: false,
+  containImage: true,
+  name: "Fad Élan",
+  tagline: "Luxury pre-loved bag catalog and e-commerce platform",
+  story:
+    "The client was selling luxury bags through Instagram DMs and Viber messages. No catalog, no inventory tracking, no way to manage inquiries at scale. Every product update meant manually messaging followers. I built the system that replaced all of that.",
+  detail:
+    "Full production platform on Next.js 15 with a custom Sanity CMS schema, nine REST API routes, a purpose-built admin panel behind iron-session auth, Resend email integration, and full SEO infrastructure — deployed to Vercel with a custom domain on day one.",
+  tech: ["Next.js 15", "TypeScript", "Sanity CMS", "Vercel", "Resend", "iron-session"],
+  keyTech: ["Next.js 15", "Sanity CMS"],
+  images: [
+    "/projects/fad-elan/logo.png",
+    "/projects/fad-elan/homepage.png",
+  ],
+  glow: "rgba(168,85,247,0.06)",
+  glowHover: "rgba(168,85,247,0.12)",
+  github: "https://github.com/JimwellC/fadelan-website",
+  live: "https://www.fadelan.com",
+  caseStudy: "/projects/fad-elan",
+},
+ 
   // ── ADD MORE PROJECTS BELOW ──────────────────────────────────────
   // {
   //   slug: "my-new-project",
