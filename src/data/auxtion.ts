@@ -11,125 +11,148 @@ export type AuctionImageSection = {
 };
 
 // ── ADD SCREENSHOTS HERE WHEN READY ─────────────────────
+// Device captures suggested (save into public/projects/auxtion/ then uncomment):
 export const auctionImageSections: AuctionImageSection[] = [
   {
     id: "live-room",
     title: "Live Auction Room",
     images: [
-       { src: "/projects/auxtion/AuxtionLogo.png", alt: "Auxtion Logo", caption: "Auxtion Logo" },
-      // { src: "/projects/auxtion/live-room-2.png", alt: "Live auction room chat mode", caption: "Chat bid mode" },
+      { src: "/projects/auxtion/AuxtionLogo.png", alt: "Auxtion", caption: "Auxtion" },
+      // { src: "/projects/auxtion/live-room.png", alt: "Live auction room", caption: "Real-time bidding — swipe gesture, item bar, timer, chat" },
     ],
   },
   {
-    id: "bidding",
-    title: "Bidding & Proxy System",
+    id: "payments",
+    title: "Payments & Orders",
     images: [
-      // { src: "/projects/auxtion/proxy-bid.png", alt: "Max bid proxy system", caption: "eBay-style proxy bidding" },
+      // { src: "/projects/auxtion/paymongo-checkout.png", alt: "PayMongo checkout", caption: "Real test payment at ₱700 (checkout.paymongo.com)" },
+      // { src: "/projects/auxtion/order-timeline.png", alt: "Order timeline", caption: "Payment timeline — all 5 stages completed" },
+      // { src: "/projects/auxtion/send-payment.png", alt: "Manual GCash transfer", caption: "Manual GCash transfer with name-mismatch warning" },
+    ],
+  },
+  {
+    id: "admin",
+    title: "Admin Console",
+    images: [
+      // { src: "/projects/auxtion/admin-hub.png", alt: "Admin hub", caption: "Console design with live platform stats" },
+      // { src: "/projects/auxtion/admin-orders.png", alt: "Admin orders", caption: "Status filters with force-cancel action" },
+      // { src: "/projects/auxtion/admin-users.png", alt: "Admin users", caption: "Role management with self-lockout guard" },
     ],
   },
   {
     id: "seller",
-    title: "Seller Dashboard",
+    title: "Seller Onboarding",
     images: [
-      // { src: "/projects/auxtion/seller-queue.png", alt: "Seller queue management", caption: "Live queue management" },
-    ],
-  },
-  {
-    id: "explore",
-    title: "Explore & Profiles",
-    images: [
-      // { src: "/projects/auxtion/explore.png", alt: "Explore screen", caption: "Discover auctions" },
+      // { src: "/projects/auxtion/seller-application.png", alt: "Seller application", caption: "ID photo upload with Terms of Service link" },
     ],
   },
 ];
 
 export const allAuctionImages: AuctionImage[] = auctionImageSections.flatMap(s => s.images);
 
+// Real stack (Expo SDK 55 · NestJS · Neon Postgres).
 export const techStack = [
-  { label: "React Native", desc: "Mobile-first iOS & Android (Expo)" },
-  { label: "NestJS", desc: "Backend API on Railway" },
-  { label: "Socket.IO", desc: "Real-time bidding gateway" },
-  { label: "PostgreSQL", desc: "Persistent auction & bid data" },
-  { label: "Prisma", desc: "ORM + row-level locking for bid atomicity" },
-  { label: "Redis", desc: "Pub/sub, bid fan-out under 10ms" },
-  { label: "JWT", desc: "Auth with refresh token rotation" },
-  { label: "PayMongo", desc: "Payment integration (in progress)" },
-  { label: "Cloudinary", desc: "Photo uploads (in progress)" },
+  { label: "React Native / Expo", desc: "Cross-platform mobile app shell (SDK 55)" },
+  { label: "Expo Router", desc: "File-based navigation + deep linking" },
+  { label: "NativeWind", desc: "Tailwind-style utility classes for RN" },
+  { label: "NestJS", desc: "Modular API server with guards + decorators" },
+  { label: "Prisma", desc: "Type-safe ORM + migration management" },
+  { label: "PostgreSQL (Neon)", desc: "Primary transactional database" },
+  { label: "Socket.IO", desc: "Real-time bidding + live room events" },
+  { label: "Redis", desc: "Bid cache + pub/sub for live rooms" },
+  { label: "HMS / 100ms", desc: "Low-latency live video streaming" },
+  { label: "PayMongo", desc: "Payment Links + webhook-confirmed checkout" },
+  { label: "Cloudinary", desc: "Photo upload + CDN (items, ID verification)" },
+  { label: "JWT + SecureStore", desc: "Auth tokens in secure device storage" },
+  { label: "@nestjs/throttler", desc: "Rate limiting on auth + webhook routes" },
+  { label: "expo-image-picker", desc: "Camera / gallery access for uploads" },
+];
+
+// Verified, measured instrumentation (pre-launch, local development).
+export const metrics: [string, string][] = [
+  ["Happy-path verified", "6 / 6 phases"],
+  ["Security fixes", "5 crit · 4 high · 6 med"],
+  ["Webhook round-trip", "~300 ms p50"],
+  ["Admin surface", "6 screens · 8 endpoints"],
+  ["Audit commit", "24 files · +790 / −255"],
+  ["End users", "0 · pre-launch"],
 ];
 
 export const challenges = [
   {
     num: "01",
-    title: "Bid Race Conditions",
-    problem: "Two buyers placing a bid at the exact same millisecond — both reading the same currentPrice, both passing validation, both winning.",
-    solution: "Prisma transactions + PostgreSQL row-level locking on ShopItem. The server reads currentPrice inside a transaction and writes atomically — any concurrent bid reading stale price is rejected. Max bids use an upsert with a unique constraint (itemId + userId) to prevent duplicate proxy bids firing simultaneously.",
-    tag: "core problem",
-    tagColor: "var(--pink)",
+    title: "Bid Impersonation via WebSocket",
+    problem: "The Socket.IO gateway trusted a client-supplied bidderId in event payloads — any connected socket could bid as any user.",
+    solution: "JWT is now verified during the socket handshake (handleConnection). Every mutating handler (place-bid, declare-chat-winner, end-auction) derives identity from client.data.userId — cryptographically verified, never from the payload — mirroring the REST API's @CurrentUser() pattern.",
+    tag: "socket auth",
   },
   {
     num: "02",
-    title: "Stale Socket Closures",
-    problem: "All socket callbacks are registered once on mount. State values go stale inside them — a bid handler reading currentPrice sees the value from when it was registered, not the latest.",
-    solution: "A ref-mirror pattern: every value read inside socket handlers is mirrored to a useRef via useEffect. Handlers read from the ref, not state — so they always see the latest value without re-registering.",
-    tag: "react native",
-    tagColor: "var(--cyan)",
+    title: "Double-Sell Race Condition",
+    problem: "Two simultaneous place-bid events on the same item could both read the current price, both pass validation, and both create winning bids — selling the item twice.",
+    solution: "SELECT ... FOR UPDATE row lock on the shop item inside a Postgres transaction. The second bid blocks until the first commits, then re-reads the updated price. Combined with a conditional compare-and-set (updateMany) for buy-now claims, exactly one buyer wins.",
+    tag: "concurrency",
   },
   {
     num: "03",
-    title: "Proxy Bid Engine",
-    problem: "eBay-style proxy bidding: two buyers with max bids battle invisibly, winner pays loser's max + increment. The client should never see the ceiling price.",
-    solution: "Entire proxy resolution runs server-side. When a bid lands, the server checks the MaxBid table, resolves the battle in order (highest max wins, price = loser max + increment), and emits only the resolved price to clients — never the ceiling.",
-    tag: "bidding logic",
-    tagColor: "var(--a2)",
+    title: "Redis as Source of Truth",
+    problem: "The winner was read from a Redis key with a 3600s TTL. If the auction ran longer than an hour, Redis restarted on a Railway redeploy, or the key was evicted, the winner was silently lost — no order created.",
+    solution: "The winner is now sourced from the bids table in Postgres (highest amount, earliest timestamp for ties), inside the same transaction that creates the order. Redis stays a read-through cache for real-time UI speed, but the DB is authoritative.",
+    tag: "data integrity",
   },
   {
     num: "04",
-    title: "Timer Synchronization",
-    problem: "Countdown timer running on multiple clients drifts over time. Seller disconnect mid-auction leaves the timer in an undefined state.",
-    solution: "Timer lives exclusively on the server as a Node interval. Each tick is emitted via Socket.IO to all clients — clients only display, never compute. Seller disconnect pauses the interval; reconnect resumes from the exact remaining time.",
-    tag: "real-time",
-    tagColor: "var(--green)",
+    title: "Hooks-Order Violation on Role Change",
+    problem: "The admin early-return gate (if isAdmin return <AdminView>) sat before useState calls. Logging out of an admin account into a non-admin one changed the hook count between renders and crashed React.",
+    solution: "All early-return role gates now sit after every hook declaration. The gate behaves identically — it just renders after hooks are registered, which React requires for consistent hook ordering.",
+    tag: "react native",
   },
   {
     num: "05",
-    title: "iOS Live Room Layout",
-    problem: "Dynamic bottom bar height across iPhone models + keyboard appearance breaks the auction room UI — bid input gets obscured or layout jumps.",
-    solution: "Bottom bar height derived from useSafeAreaInsets + a keyboard height listener. All layout values computed dynamically per device — no hardcoded insets.",
-    tag: "mobile",
-    tagColor: "var(--a2)",
+    title: "Coordinated API + Mobile Deploy",
+    problem: "The socket-auth change (JWT in the handshake) needs API and mobile to ship together — old clients without the token would be rejected, and the old API would accept any connection.",
+    solution: "The backend gracefully handles a missing token (falls back to anonymous / view-only instead of rejecting), so the rollout is backward-compatible. Old clients can still watch auctions but can't bid until updated.",
+    tag: "rollout",
   },
 ];
 
 export const bidFlow = [
-  { num: "01", title: "Buyer Swipes / Taps", desc: "Swipe-up or tap triggers a Socket.IO emit (place-bid) from the client.", icon: "👆" },
-  { num: "02", title: "Gateway Validates", desc: "Server validates bid is strictly greater than currentPrice before touching the database.", icon: "🔍" },
-  { num: "03", title: "Atomic Write", desc: "Prisma transaction locks the ShopItem row, updates currentPrice and winnerId atomically. Concurrent bids on stale price are rejected.", icon: "🔒" },
-  { num: "04", title: "Proxy Resolution", desc: "Server checks MaxBid table for active proxy bids. If two proxies compete, the battle resolves server-side — loser's max + increment wins.", icon: "⚡" },
-  { num: "05", title: "Room Broadcast", desc: "bid-update emitted to the entire auction room. All clients update UI simultaneously.", icon: "📡" },
-  { num: "06", title: "Timer Reset", desc: "Counterbid window resets. Server interval continues ticking and emitting to all clients.", icon: "⏱" },
-  { num: "07", title: "Item Ends", desc: "Timer hits 0 → server auto-sells, emits item-ended. Winner and seller both notified.", icon: "🏆" },
+  { num: "01", title: "Seller Queues Items", desc: "NestJS persists the auction and shop items to Postgres, each with a starting price and auction mode." },
+  { num: "02", title: "Seller Goes Live", desc: "HMS/100ms issues an ownership-verified broadcaster token; a Socket.IO room is created and viewers join with realtime viewer tokens." },
+  { num: "03", title: "Item Starts", desc: "Server emits item-started over Socket.IO; the countdown timer begins on all connected clients simultaneously." },
+  { num: "04", title: "Buyer Swipes to Bid", desc: "Client sends place-bid with JWT-verified identity; the server acquires a Postgres row lock (FOR UPDATE), validates atomically, and broadcasts the new price to the room." },
+  { num: "05", title: "Item Sold", desc: "On timer expiry the server reads the winner from the bids table (DB, not Redis) and creates an order with PENDING_PAYMENT status, emitting the sale to both parties." },
+  { num: "06", title: "Buyer Pays", desc: "App opens PayMongo hosted checkout (card / GCash / QR Ph); PayMongo webhooks the API and the order transitions to PAID." },
+  { num: "07", title: "Seller Ships", desc: "Seller enters courier + tracking number; order transitions to SHIPPED and the buyer sees tracking plus a Confirm Receipt action." },
+  { num: "08", title: "Buyer Confirms", desc: "Order transitions to COMPLETED, seller payout is RELEASED, and the seller's totalSales is incremented atomically in a transaction." },
 ];
 
 export const builtFeatures = [
-  "Live auction rooms (swipe + chat bid modes)",
-  "Live buy now",
-  "Real-time bidding with proxy / max bid system",
-  "Offer system (buyer offers → seller accepts / declines)",
-  "Seller queue management",
-  "Auction scheduling",
-  "Explore & search",
-  "User profiles",
-  "JWT auth with refresh token rotation",
-  "Seller rejoin on disconnect",
+  "Live auction room (Swipe Auction + Chat Bid modes)",
+  "Real-time bidding via Socket.IO (JWT-authenticated)",
+  "Live video streaming (HMS/100ms broadcaster/viewer)",
+  "Buy Now + Offers (accept / decline / counter)",
+  "PayMongo payments (Payment Links + webhook)",
+  "Manual payment path (GCash/bank screenshot + ref)",
+  "Full order lifecycle (pending → completed)",
+  "Seller application with ID upload + admin review",
+  "Admin panel (stats, users, orders, disputes, applications)",
+  "Admin console design system + shared components",
+  "Admin-account UI gating (profile, Go Live, activity)",
+  "Security audit (socket auth, atomic bids, payout guards)",
+  "Terms of Service + Privacy / Seller policies",
+  "Profile completion gate before bidding",
+  "Auto-cancel unpaid orders (10-minute timer)",
+  "AfterShip courier tracking (J&T, LBC deep links)",
 ];
 
 export const inProgressFeatures = [
-  "PayMongo payment flow",
-  "Photo uploads (Cloudinary)",
-  "Order system post-sale",
-  "Push notifications (expo-notifications)",
-  "Reaction emojis",
-  "Viewer count deduplication",
-  "Seller queue reordering",
-  "Winner announced in chat",
+  "Production deployment (Railway — TestFlight blocker)",
+  "Push notifications (tokens wired, sending not built)",
+  "PayMongo live mode (currently test mode)",
+  "Winner announcement in live chat",
+  "Buy Now shop-tab purchase button (placeholder)",
+  "GCash / bank account picker (both forms shown)",
+  "Buyer reporting system",
+  "Consignment selling (analyzed, deferred)",
 ];

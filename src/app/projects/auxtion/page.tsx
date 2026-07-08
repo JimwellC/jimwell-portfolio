@@ -3,31 +3,30 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { projects } from "@/data/projects";
 import {
-  techStack, challenges, bidFlow, builtFeatures, inProgressFeatures, auctionImageSections,
+  techStack, challenges, bidFlow, builtFeatures, inProgressFeatures, auctionImageSections, metrics,
 } from "@/data/auxtion";
 import { Boot, type BootLine } from "@/components/case/Boot";
 import { Telemetry } from "@/components/case/Telemetry";
 
 const P = projects.find((x) => x.slug === "auxtion")!;
 
-// Spec sheet — derived from the project's real architecture.
+// Spec sheet — the project's real, verified architecture.
 const SPEC: [string, string, boolean][] = [
-  ["Class", "Real-time auction engine", true],
-  ["Fan-out", "< 10 ms", true],
+  ["Class", "Live auction marketplace", true],
   ["Transport", "Socket.IO / WS", false],
-  ["Atomicity", "Row-level lock", false],
-  ["Timer", "Server-authoritative", false],
-  ["Auth", "JWT + refresh", false],
-  ["Client", "React Native · Expo", false],
-  ["Backend", "NestJS · Railway", false],
-  ["Status", "Active dev", true],
+  ["Bid integrity", "Row-lock · FOR UPDATE", true],
+  ["Auth", "JWT · socket handshake", false],
+  ["Payment", "PayMongo + manual GCash", false],
+  ["Video", "HMS / 100ms", false],
+  ["Bid modes", "Swipe + Chat bid", false],
+  ["Status", "TestFlight-ready", true],
 ];
 
 const BOOT: BootLine[] = [
   { pfx: ">", text: "mount /case-file/auxtion", dim: true },
-  { pfx: ">", text: "AUXTION // real-time auction engine  [ solo build ]" },
+  { pfx: ">", text: "AUXTION // live auction marketplace  [ solo build ]" },
   { pfx: ">", text: P.story },
-  { pfx: ">", text: "modules: socket-gateway · proxy-engine · atomic-bid · rn-client", dim: true },
+  { pfx: ">", text: "modules: socket-gateway · atomic-bid · paymongo-webhook · rn-client", dim: true },
 ];
 
 const images = auctionImageSections.flatMap((s) =>
@@ -52,7 +51,7 @@ export default function AuxtionCase() {
             <span>AUX-{P.num}</span>
           </div>
           <div className="r">
-            <span className="stat"><span className="dot" /> Active dev</span>
+            <span className="stat"><span className="dot" /> In development</span>
             <Link href="/projects">← archive</Link>
             <Link href="/">home</Link>
           </div>
@@ -86,6 +85,17 @@ export default function AuxtionCase() {
                   </div>
                 ))}
               </div>
+            </motion.section>
+
+            {/* verified metrics */}
+            <motion.section {...reveal}>
+              <div className="cs-sec"><b>Metrics</b> Verified instrumentation <span className="rule" /><span className="n">{String(metrics.length).padStart(2, "0")} tracked</span></div>
+              <div className="stats">
+                {metrics.map(([k, v]) => (
+                  <div className="stat" key={k}><span className="sk">{k}</span><span className="sv acc">{v}</span></div>
+                ))}
+              </div>
+              <p className="mod-spec" style={{ marginTop: 14 }}>Measured on device — pre-launch, local development. No production traffic yet.</p>
             </motion.section>
 
             {/* anomaly / post-mortem log */}

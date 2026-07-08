@@ -23,18 +23,18 @@ export const projects: Project[] = [
   {
     slug: "auxtion",
     num: "01",
-    badge: { label: "● live", style: "live" },
+    badge: { label: "◐ in dev", style: "in dev" },
     category: ["mobile"],
     featured: true,
     name: "Auxtion",
-    tagline: "Live auction marketplace",
+    tagline: "Live auction marketplace for Filipinos",
     containImage: true,
     story:
-      "Built a live auction marketplace because existing platforms couldn't handle the latency demands of real-time bidding. The hard part wasn't the bidding — it was making sure two people placing a bid at the exact same millisecond didn't both win.",
+      "Filipino sellers were running live auctions on Facebook and Instagram with zero infrastructure — manual bid tracking, payment disputes, no order management. I built Auxtion to give them a real platform: real-time bidding, atomic order creation, and integrated GCash/PayMongo payments — modeled on Whatnot, built for the Philippine market.",
     detail:
-      "Engineered a WebSocket-first architecture with Redis pub/sub to fan out bid events to all connected clients in under 10ms. The auction timer uses server-authoritative state to prevent client-side manipulation.",
-    tech: ["WebSockets", "Redis", "React Native", "Node.js"],
-    keyTech: ["WebSockets", "Redis"],
+      "A React Native (Expo) app backed by a NestJS API using Socket.IO for real-time bidding and HMS/100ms for live video. Bids are atomic via Postgres row-level locks (SELECT…FOR UPDATE) to prevent double-sells, with Redis as a read-through cache. Payments run through PayMongo (card/GCash/QR Ph) via webhook-confirmed Payment Links, plus a manual GCash/bank transfer path.",
+    tech: ["React Native", "NestJS", "Socket.IO", "PostgreSQL", "Redis", "PayMongo"],
+    keyTech: ["Socket.IO", "PostgreSQL"],
     images: [
       "/projects/auxtion/AuxtionLogo.png",
     ],
