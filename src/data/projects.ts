@@ -125,12 +125,12 @@ export const projects: Project[] = [
   featured: false,
   containImage: true,
   name: "Fad Élan",
-  tagline: "Luxury pre-loved bag catalog and e-commerce platform",
+  tagline: "Luxury pre-loved bag catalog, Philippines",
   story:
-    "The client was selling luxury bags through Instagram DMs and Viber messages. No catalog, no inventory tracking, no way to manage inquiries at scale. Every product update meant manually messaging followers. I built the system that replaced all of that.",
+    "The client (@fadelan.26) was selling authentic luxury bags entirely through Instagram DMs — no catalog, no way to browse without already following. I built a browsable, filterable catalog that turns passive visitors into inquiries, plus a custom admin panel so she manages inventory without ever touching a CMS studio.",
   detail:
-    "Full production platform on Next.js 15 with a custom Sanity CMS schema, nine REST API routes, a purpose-built admin panel behind iron-session auth, Resend email integration, and full SEO infrastructure — deployed to Vercel with a custom domain on day one.",
-  tech: ["Next.js 15", "TypeScript", "Sanity CMS", "Vercel", "Resend", "iron-session"],
+    "A Next.js 15 App Router site pulling bags and settings from Sanity CMS at request time (revalidate: 0, so availability is always fresh). A custom iron-session admin panel lets the client manage inventory, photos, and settings without touching Sanity Studio. Inquiry buttons build pre-filled deep links to Messenger and SMS, with a clipboard fallback for Instagram (which has no DM pre-fill API).",
+  tech: ["Next.js 15", "TypeScript", "Sanity CMS", "Tailwind v4", "Vercel", "Resend"],
   keyTech: ["Next.js 15", "Sanity CMS"],
   images: [
     "/projects/fad-elan/logo.png",
