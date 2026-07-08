@@ -189,6 +189,14 @@ h2 em { font-style: italic; color: var(--cobalt-ink); }
 .xp .desc b { color: var(--ink); font-weight: 600; }
 .chips { display: flex; gap: 8px; flex-wrap: wrap; }
 
+/* Clickable service record → opens the certificate in a lightbox */
+.xp-clickable { cursor: pointer; border-radius: 4px; margin: 0 -12px; padding-left: 12px; padding-right: 12px; transition: background .18s; }
+.xp-clickable:hover { background: color-mix(in srgb, var(--cobalt) 6%, transparent); }
+.xp-clickable:focus-visible { outline: 2px solid var(--cobalt-ink); outline-offset: 2px; }
+.xp-cert { display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--grey); transition: color .18s; }
+.xp-cert span { color: var(--cobalt-ink); }
+.xp-clickable:hover .xp-cert { color: var(--cobalt-ink); }
+
 .principle { display: grid; grid-template-columns: 40px 1fr; gap: 16px; padding: 22px 0; border-top: 1px solid var(--line); }
 .principle:last-child { border-bottom: 1px solid var(--line); }
 .principle .pn { font-family: var(--mono); font-size: 12px; color: var(--cobalt-ink); }
