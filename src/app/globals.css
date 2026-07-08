@@ -544,6 +544,21 @@ h2 em { font-style: italic; color: var(--cobalt-ink); }
 
 /* telemetry viewports */
 .telem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%),1fr)); gap: 18px; }
+
+/* Phone-screenshot galleries: portrait frames (no wasted side letterbox),
+   and a horizontal swipe carousel on mobile so many app screens don't stack
+   into an endless column. Opt in with class "phones" on .telem-grid. */
+.telem-grid.phones { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.telem-grid.phones .telem-view { aspect-ratio: 9 / 19.5; }
+@media (max-width: 640px) {
+  .telem-grid.phones {
+    display: flex; grid-template-columns: none;
+    overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+  }
+  .telem-grid.phones .telem { flex: 0 0 62%; scroll-snap-align: center; }
+}
 .telem { position: relative; border: 1px solid color-mix(in srgb, var(--cobalt) 26%, var(--line-strong)); border-radius: 4px; overflow: hidden; background: var(--paper-2); }
 .telem-view { position: relative; aspect-ratio: 16/11; overflow: hidden; }
 .telem-view img { object-fit: contain; }

@@ -112,7 +112,7 @@ export default function ReachableCase() {
       {images.length > 0 && (
         <motion.section {...reveal}>
           <div className="cs-sec"><b>Telemetry</b> Interface feeds <span className="rule" /><span className="n">{String(images.length).padStart(2, "0")} feeds</span></div>
-          <div className="telem-grid">
+          <div className="telem-grid phones">
             {images.map((im, i) => (
               <Telemetry key={i} src={im.src} alt={im.alt} id={`FEED-${String(i + 1).padStart(2, "0")}`} caption={im.caption ?? im.section} contain />
             ))}
