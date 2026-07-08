@@ -129,6 +129,43 @@ RULES
 - Auxtion is a personal solo project still in active development
 - Jimwell is actively seeking full-time roles — on-site anywhere in the Philippines, or remote for international`;
 
+// Model tiers, tried in order. Fail over to the next only on transient overload.
+const MODEL_TIERS = ["gemini-2.5-flash-lite", "gemini-2.0-flash"];
+
+function isOverloaded(e: unknown): boolean {
+  const status = (e as { status?: number })?.status;
+  return status === 503 || status === 429;
+}
+
+/**
+ * Send `message` (with prior `history`) to a single model, retrying transient
+ * overload (503/429) up to 3 times with exponential backoff. Throws on any
+ * other error, and re-throws the last overload error if all retries fail.
+ */
+async function askModel(
+  modelName: string,
+  history: { role: string; text: string }[],
+  message: string
+): Promise<string> {
+  const model = genAI.getGenerativeModel({ model: modelName, systemInstruction: SYSTEM_PROMPT });
+  const chat = model.startChat({
+    history: (history || []).map((h) => ({ role: h.role, parts: [{ text: h.text }] })),
+  });
+
+  let lastErr: unknown;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const result = await chat.sendMessage(message);
+      return result.response.text();
+    } catch (e) {
+      lastErr = e;
+      if (!isOverloaded(e)) throw e;
+      await new Promise((r) => setTimeout(r, 500 * (attempt + 1)));
+    }
+  }
+  throw lastErr;
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { message, history } = await req.json();
@@ -137,24 +174,31 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Message required" }, { status: 400 });
     }
 
-    const model = genAI.getGenerativeModel({
-      model: "gemini-2.5-flash-lite",
-      systemInstruction: SYSTEM_PROMPT,
-    });
-
-    const chat = model.startChat({
-      history: (history || []).map((h: { role: string; text: string }) => ({
-        role: h.role,
-        parts: [{ text: h.text }],
-      })),
-    });
-
-    const result = await chat.sendMessage(message);
-    const text = result.response.text();
+    // Try each model tier in order; fail over to the next only on transient overload.
+    let text: string | undefined;
+    let lastErr: unknown;
+    for (const modelName of MODEL_TIERS) {
+      try {
+        text = await askModel(modelName, history, message);
+        lastErr = undefined;
+        break;
+      } catch (e) {
+        lastErr = e;
+        if (!isOverloaded(e)) throw e; // a real error → don't burn the fallback tier
+      }
+    }
+    if (text === undefined) throw lastErr;
 
     return NextResponse.json({ reply: text });
   } catch (err) {
     console.error("Chat API error:", err);
+    const status = (err as { status?: number })?.status;
+    if (status === 503 || status === 429) {
+      return NextResponse.json(
+        { error: "The assistant is briefly at capacity — please try again in a moment." },
+        { status: 503 }
+      );
+    }
     return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
   }
 }

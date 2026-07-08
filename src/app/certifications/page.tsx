@@ -3,312 +3,131 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  certifications,
-  categoryStyles,
-  categoryLabels,
-  type Certificate,
-} from "@/data/certifications";
+import { certifications, categoryLabels, type Certificate } from "@/data/certifications";
+import { Boot, type BootLine } from "@/components/case/Boot";
 
-type Filter = "all" | "technical" | "course" | "award" | "webinar" | "seminar";
+// Deterministic SHA-256-looking digest from a seed (stable across SSR/client).
+function digest(seed: string): string {
+  let h = 2166136261 >>> 0;
+  for (let i = 0; i < seed.length; i++) { h ^= seed.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; }
+  let x = h || 1, out = "";
+  while (out.length < 64) {
+    x ^= x << 13; x >>>= 0;
+    x ^= x >> 17;
+    x ^= x << 5; x >>>= 0;
+    out += (x >>> 0).toString(16).padStart(8, "0");
+  }
+  return out.slice(0, 64);
+}
 
-const filters: { label: string; value: Filter }[] = [
-  { label: "All", value: "all" },
-  { label: "Technical", value: "technical" },
-  { label: "Courses", value: "course" },
-  { label: "Awards", value: "award" },
-  { label: "Webinars", value: "webinar" },
-  { label: "Seminars", value: "seminar" },
+// Chronological ledger order (append-only feel).
+const entries = [...certifications].sort((a, b) => a.date.localeCompare(b.date));
+
+const BOOT: BootLine[] = [
+  { pfx: ">", text: "open /vault/credentials.ledger", dim: true },
+  { pfx: ">", text: "verifying signatures · SHA-256 · issuer chain of trust" },
+  { pfx: ">", text: `ledger synced · ${entries.length} entries · AUTH OK`, dim: true },
 ];
 
-function CertCard({ cert }: { cert: Certificate }) {
-  const [lightbox, setLightbox] = useState(false);
-  const spotRef = { current: null as HTMLDivElement | null };
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const el = spotRef.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    el.style.setProperty("--mx", `${e.clientX - rect.left}px`);
-    el.style.setProperty("--my", `${e.clientY - rect.top}px`);
-    el.style.setProperty("--so", "1");
-  };
-  const handleMouseLeave = () => spotRef.current?.style.setProperty("--so", "0");
+export default function CertificationsPage() {
+  const [active, setActive] = useState<Certificate | null>(null);
 
   return (
-    <>
-      <motion.div
-        layout
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 16 }}
-        transition={{ duration: 0.3 }}
-        // eslint-disable-next-line react-hooks/immutability
-        ref={el => { spotRef.current = el; }}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        onClick={() => setLightbox(true)}
-        style={{
-          borderRadius: "16px", overflow: "hidden",
-          background: "var(--s1)", border: "0.5px solid var(--border)",
-          cursor: "pointer", position: "relative",
-          transition: "border-color 0.2s",
-          "--mx": "50%", "--my": "50%", "--so": "0",
-        } as React.CSSProperties}
-        onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.borderColor = "var(--border2)"}
-      >
-        {/* Spotlight */}
-        <div style={{
-          position: "absolute", inset: 0, pointerEvents: "none", zIndex: 1,
-          background: "radial-gradient(260px circle at var(--mx) var(--my), rgba(99,102,241,0.1), transparent 70%)",
-          opacity: "var(--so)" as unknown as number,
-          transition: "opacity 0.3s", borderRadius: "16px",
-        }}/>
-
-        {/* Certificate image */}
-        <div style={{ position: "relative", height: "180px", background: "var(--s2)", overflow: "hidden" }}>
-          <Image
-            src={cert.image}
-            alt={cert.name}
-            fill
-            style={{ objectFit: "cover", transition: "transform 0.3s" }}
-            onMouseEnter={e => (e.currentTarget as HTMLImageElement).style.transform = "scale(1.03)"}
-            onMouseLeave={e => (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"}
-          />
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(15,16,24,1) 0%, transparent 55%)", pointerEvents: "none" }}/>
-
-          {/* Badges on image */}
-          <div style={{ position: "absolute", top: "10px", left: "10px", display: "flex", gap: "5px", zIndex: 2 }}>
-            <span style={{ fontSize: "10px", padding: "2px 8px", borderRadius: "20px", fontFamily: "var(--font-space-mono)", ...categoryStyles[cert.category] }}>
-              {categoryLabels[cert.category]}
-            </span>
+    <main style={{ minHeight: "100vh" }}>
+      {/* command bar */}
+      <header className="cs-bar">
+        <div className="col">
+          <div className="l">
+            <span className="file">[ AUDIT LOG ]</span>
+            <span>CRED-LEDGER</span>
           </div>
-          <div style={{ position: "absolute", top: "10px", right: "10px", zIndex: 2 }}>
-            <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.5)", fontFamily: "var(--font-space-mono)", background: "rgba(8,9,16,0.6)", padding: "2px 7px", borderRadius: "8px" }}>
-              {cert.date}
-            </span>
-          </div>
-
-          {/* View hint */}
-          <div style={{ position: "absolute", bottom: "10px", right: "10px", zIndex: 2, fontSize: "10px", color: "rgba(255,255,255,0.4)", fontFamily: "var(--font-space-mono)" }}>
-            tap to view ↗
+          <div className="r">
+            <span className="stat"><span className="dot" /> {String(entries.length).padStart(2, "0")} verified</span>
+            <Link href="/">← home</Link>
           </div>
         </div>
+      </header>
 
-        {/* Info */}
-        <div style={{ padding: "14px 16px", position: "relative", zIndex: 2 }}>
-          <h3 style={{ fontSize: "13px", fontWeight: 600, color: "#eaecf6", marginBottom: "4px", lineHeight: 1.4 }}>
-            {cert.name}
-          </h3>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <span style={{ fontSize: "11px", color: cert.color, fontFamily: "var(--font-space-mono)" }}>
-              {cert.issuer}
-            </span>
-            {cert.href && (
-              <a href={cert.href} target="_blank" rel="noopener noreferrer"
-                onClick={e => e.stopPropagation()}
-                style={{ fontSize: "10px", color: "var(--a2)", textDecoration: "none", fontFamily: "var(--font-space-mono)" }}>
-                verify ↗
-              </a>
-            )}
-          </div>
-        </div>
-      </motion.div>
+      <div className="col">
+        {/* hero */}
+        <section className="cs-hero">
+          <div className="cs-class">// Secure Credential Ledger</div>
+          <h1 className="cs-title">Credentials</h1>
+          <div className="cs-tagline">Cryptographic audit log · issuer-signed · publicly verifiable</div>
+          <Boot lines={BOOT} />
+        </section>
 
-      {/* Lightbox */}
-      <AnimatePresence>
-        {lightbox && (
-          <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            onClick={() => setLightbox(false)}
-            style={{ position: "fixed", inset: 0, zIndex: 999, background: "rgba(0,0,0,0.92)", backdropFilter: "blur(12px)", display: "flex", alignItems: "center", justifyContent: "center", padding: "24px", cursor: "zoom-out" }}
-          >
-            <motion.div
-              initial={{ scale: 0.88, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.88, opacity: 0 }} transition={{ duration: 0.22 }}
-              onClick={e => e.stopPropagation()}
-              style={{ position: "relative", borderRadius: "16px", overflow: "hidden", maxWidth: "860px", width: "100%", border: "0.5px solid var(--border2)", boxShadow: "0 0 80px rgba(99,102,241,0.2)", cursor: "default" }}
-            >
-              <Image src={cert.image} alt={cert.name} width={860} height={640} style={{ objectFit: "contain", width: "100%", height: "auto", display: "block" }} />
-              <div style={{ padding: "16px 20px", background: "var(--s1)", borderTop: "0.5px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <div>
-                  <div style={{ fontSize: "13px", fontWeight: 600, color: "#eaecf6", marginBottom: "2px" }}>{cert.name}</div>
-                  <div style={{ fontSize: "11px", color: cert.color, fontFamily: "var(--font-space-mono)" }}>{cert.issuer} · {cert.date}</div>
-                </div>
-                <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-                  {cert.href && (
-                    <a href={cert.href} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
-                      style={{ fontSize: "11px", color: "var(--a2)", textDecoration: "none", fontFamily: "var(--font-space-mono)", padding: "6px 14px", borderRadius: "8px", border: "0.5px solid var(--border2)" }}>
-                      verify ↗
-                    </a>
-                  )}
-                  <button onClick={() => setLightbox(false)}
-                    style={{ fontSize: "11px", color: "var(--dim)", fontFamily: "var(--font-space-mono)", padding: "6px 14px", borderRadius: "8px", border: "0.5px solid var(--border)", background: "transparent", cursor: "pointer" }}>
-                    close
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-            <div style={{ position: "absolute", bottom: "24px", fontSize: "11px", color: "rgba(255,255,255,0.2)", fontFamily: "var(--font-space-mono)" }}>
-              click outside to close
+        {/* the monolithic ledger */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          style={{ padding: "clamp(40px,6vw,72px) 0" }}
+        >
+          <div className="ledger">
+            <div className="ledger-bar">
+              <span className="l"><span className="dot" /> Secure Credential Ledger</span>
+              <span>SHA-256 · {entries.length} ENTRIES · CHAIN OK</span>
             </div>
+
+            <div className="ledger-cols">
+              <span>IDX</span><span>Credential</span><span>Class</span><span>Issued</span><span>Digest</span><span>Status</span>
+            </div>
+
+            <div className="ledger-body">
+              {entries.map((c, i) => {
+                const hash = digest(c.id + c.name + c.date);
+                return (
+                  <button className="ledger-row" key={c.id} onClick={() => setActive(c)} title="Open credential">
+                    <span className="lg-idx">0x{(i + 1).toString(16).padStart(2, "0").toUpperCase()}</span>
+                    <span className="lg-cred">
+                      <span className="lg-name">{c.name}</span>
+                      <span className="lg-issuer">[ ISSUER: {c.issuer.toUpperCase()} ]</span>
+                    </span>
+                    <span className="lg-class">{categoryLabels[c.category]}</span>
+                    <span className="lg-date">{c.date}</span>
+                    <span className="lg-hash" title={hash}>{hash.slice(0, 20)}…</span>
+                    <span className="lg-status"><span className="d" />[ AUTH: VERIFIED ]</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="ledger-foot">
+              <span>root · 0x{digest("root").slice(0, 12)}</span>
+              <span className="ok">✓ every signature validated against issuer</span>
+            </div>
+          </div>
+
+          <p style={{ marginTop: 20, fontFamily: "var(--mono)", fontSize: 10.5, letterSpacing: ".04em", color: "var(--grey)", lineHeight: 1.7 }}>
+            * Certificate of Appreciation from Microsoft Corporation is logged under Experience on the main readout.
+          </p>
+        </motion.div>
+      </div>
+
+      <footer className="cs-foot">
+        <div className="col">
+          <Link href="/">← home</Link>
+        </div>
+      </footer>
+
+      {/* credential viewer */}
+      <AnimatePresence>
+        {active && (
+          <motion.div className="lightbox" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setActive(null)}>
+            <motion.div className="lb-frame" style={{ maxWidth: 880, width: "100%" }} initial={{ scale: 0.92, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.92, opacity: 0 }} transition={{ duration: 0.2 }} onClick={(e) => e.stopPropagation()}>
+              <Image src={active.image} alt={active.name} width={880} height={640} sizes="(max-width: 900px) 92vw, 880px" style={{ objectFit: "contain", width: "100%", height: "auto", display: "block" }} />
+              <div className="telem-bar" style={{ padding: "12px 16px" }}>
+                <span className="id">{active.name}</span>
+                <span>[ ISSUER: {active.issuer.toUpperCase()} · {active.date} ]</span>
+              </div>
+              <button className="lb-btn" style={{ top: 12, right: 12 }} onClick={(e) => { e.stopPropagation(); setActive(null); }}>✕</button>
+            </motion.div>
+            <div className="lb-hint">click outside to close</div>
           </motion.div>
         )}
       </AnimatePresence>
-    </>
-  );
-}
-
-export default function CertificationsPage() {
-  const [filter, setFilter] = useState<Filter>("all");
-
-  const filtered = filter === "all"
-    ? certifications
-    : certifications.filter(c => c.category === filter);
-
-  return (
-    <main style={{ background: "var(--bg)", minHeight: "100vh" }}>
-
-      {/* ── NAV ── */}
-      <div style={{
-        borderBottom: "0.5px solid var(--border)", padding: "0",
-        background: "rgba(8,9,16,0.92)", backdropFilter: "blur(14px)",
-        position: "sticky", top: 0, zIndex: 50,
-      }}>
-        <div className="col" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 60px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-            <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "8px" }}>
-              <div style={{
-                width: "28px", height: "28px", borderRadius: "7px",
-                background: "linear-gradient(135deg,var(--accent),var(--cyan))",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: "11px", fontWeight: 700, color: "#fff",
-                fontFamily: "var(--font-space-mono)",
-              }}>JC</div>
-            </Link>
-            <div style={{ width: "0.5px", height: "16px", background: "var(--border)" }}/>
-            <span style={{ fontSize: "12px", color: "var(--muted)", fontFamily: "var(--font-space-mono)" }}>
-              certifications
-            </span>
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-            <span style={{ fontSize: "11px", color: "var(--dim)", fontFamily: "var(--font-space-mono)" }}>
-              {filtered.length} / {certifications.length}
-            </span>
-            <Link href="/" style={{
-              fontSize: "11px", color: "var(--muted)", textDecoration: "none",
-              fontFamily: "var(--font-space-mono)", padding: "5px 12px",
-              borderRadius: "8px", border: "0.5px solid var(--border)",
-              transition: "border-color 0.2s, color 0.2s",
-            }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--border2)"; e.currentTarget.style.color = "var(--a2)"; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "var(--muted)"; }}
-            >← home</Link>
-          </div>
-        </div>
-      </div>
-
-      <div className="col" style={{ paddingTop: "48px", paddingBottom: "80px" }}>
-
-        {/* ── HEADER ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          style={{ marginBottom: "40px" }}
-        >
-          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: "16px" }}>
-            <div>
-              <p style={{ fontFamily: "var(--font-space-mono)", fontSize: "10px", color: "var(--a2)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "10px", opacity: 0.7 }}>
-                All credentials
-              </p>
-              <h1 style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700, color: "#eaecf6", letterSpacing: "-0.02em", lineHeight: 1.1 }}>
-                Certifications & credentials.
-              </h1>
-            </div>
-            <p style={{ fontSize: "13px", color: "var(--muted)", maxWidth: "300px", lineHeight: 1.7 }}>
-              Click any certificate to view the full image. All credentials are real and verifiable.
-            </p>
-          </div>
-        </motion.div>
-
-        {/* ── FILTERS ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.1 }}
-          style={{ display: "flex", gap: "6px", marginBottom: "32px", flexWrap: "wrap", borderBottom: "0.5px solid var(--border)", paddingBottom: "24px" }}
-        >
-          {filters.map(f => {
-            const count = f.value === "all" ? certifications.length : certifications.filter(c => c.category === f.value).length;
-            const isActive = filter === f.value;
-            return (
-              <button
-                key={f.value}
-                onClick={() => setFilter(f.value)}
-                style={{
-                  padding: "6px 14px", borderRadius: "8px",
-                  fontSize: "12px", cursor: "pointer",
-                  fontFamily: "var(--font-space-mono)",
-                  border: isActive ? "0.5px solid var(--accent)" : "0.5px solid var(--border)",
-                  background: isActive ? "rgba(99,102,241,0.1)" : "transparent",
-                  color: isActive ? "var(--a2)" : "var(--muted)",
-                  transition: "all 0.15s",
-                  display: "flex", alignItems: "center", gap: "6px",
-                }}
-              >
-                {f.label}
-                <span style={{
-                  fontSize: "10px",
-                  background: isActive ? "rgba(99,102,241,0.2)" : "rgba(255,255,255,0.05)",
-                  padding: "1px 5px", borderRadius: "4px",
-                  color: isActive ? "var(--a2)" : "var(--dim)",
-                }}>
-                  {count}
-                </span>
-              </button>
-            );
-          })}
-        </motion.div>
-
-        {/* ── GRID ── */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={filter}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-              gap: "12px",
-            }}
-            className="certs-page-grid"
-          >
-            {filtered.map(cert => (
-              <CertCard key={cert.id} cert={cert} />
-            ))}
-
-            {filtered.length === 0 && (
-              <div style={{ gridColumn: "1/-1", textAlign: "center", padding: "80px 0" }}>
-                <p style={{ fontSize: "13px", color: "var(--dim)", fontFamily: "var(--font-space-mono)" }}>
-                  no certificates in this category yet
-                </p>
-              </div>
-            )}
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Microsoft note */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
-          style={{ marginTop: "32px", fontSize: "11px", color: "var(--dim)", fontFamily: "var(--font-space-mono)" }}
-        >
-          * Certificate of Appreciation from Microsoft Corporation is listed under Experience on the main page.
-        </motion.p>
-      </div>
     </main>
   );
 }

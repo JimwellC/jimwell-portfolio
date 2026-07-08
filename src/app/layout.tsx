@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Space_Mono } from "next/font/google";
+import { Fraunces, Space_Mono } from "next/font/google";
 import "./globals.css";
+import GlobalCanvas from "@/components/three/GlobalCanvas";
 
-const spaceGrotesk = Space_Grotesk({
+// Editorial display face — high-contrast serif, used with restraint for headlines.
+const fraunces = Fraunces({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-space-grotesk",
+  style: ["normal", "italic"],
+  variable: "--font-fraunces",
   display: "swap",
 });
 
+// Utility / data face — used for eyebrows, labels, and instrument readouts.
 const spaceMono = Space_Mono({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -28,8 +31,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${spaceMono.variable}`}>
-      <body>{children}</body>
+    <html lang="en" className={`${fraunces.variable} ${spaceMono.variable}`}>
+      <body>
+        <GlobalCanvas />
+        {children}
+      </body>
     </html>
   );
 }

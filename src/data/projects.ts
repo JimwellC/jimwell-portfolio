@@ -68,6 +68,7 @@ export const projects: Project[] = [
     glowHover: "rgba(34,211,238,0.12)",
     github: "https://github.com/JimwellC/fad-fashiown-system",
     live: "",
+    caseStudy: "/projects/fad-fashiown",
   },
   {
     slug: "reachable",
