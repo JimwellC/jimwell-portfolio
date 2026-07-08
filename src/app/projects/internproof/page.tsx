@@ -8,25 +8,36 @@ import type { BootLine } from "@/components/case/Boot";
 
 const P = projects.find((x) => x.slug === "internproof")!;
 
+const CONTRACT = "0x9A8BD5059F3ec602c9b54D2C78d1f11eE0580bf4";
+
 const SPEC: Spec[] = [
   ["Class", "On-chain OJT ledger", true],
   ["Network", "Ethereum Sepolia", false],
-  ["Contract", "UUPS upgradeable", false],
-  ["Bytecode", "23,531 / 24,576", true],
+  ["Contract", "UUPS proxy", false],
+  ["Bytecode", "23,531 / 24,576 B", true],
   ["Roles", "4 · on-chain ACL", false],
-  ["Proofs", "IPFS · Pinata", false],
-  ["Min session", "4h (block time)", false],
+  ["Storage", "IPFS/Pinata + on-chain CID", false],
+  ["Wallet", "MetaMask · ethers v6", false],
   ["Verify", "Public, no account", true],
-  ["Status", "Live deployment", true],
+  ["Status", "Live · Sepolia", true],
 ];
 
 const MANIFEST: ManifestItem[] = [
-  { label: "Solidity", desc: "UUPS upgradeable smart contract" },
-  { label: "Next.js", desc: "Frontend + verification portal" },
-  { label: "ethers.js", desc: "Contract calls · EIP-1193 wallet" },
-  { label: "Hardhat", desc: "Compile, test, deploy pipeline" },
-  { label: "IPFS", desc: "Proof images via Pinata, CID on-chain" },
-  { label: "TypeScript", desc: "End-to-end type safety" },
+  { label: "Next.js 14 + TS", desc: "Frontend, dashboards, verify portal" },
+  { label: "Solidity (UUPS)", desc: "Upgradeable on-chain logbook proxy" },
+  { label: "ethers.js v6", desc: "Contract calls · MetaMask signing" },
+  { label: "IPFS · Pinata", desc: "Proof images off-chain, CID on-chain" },
+  { label: "jsPDF", desc: "Client-side A4 certificate generation" },
+  { label: "Tailwind CSS", desc: "Amber dark design system" },
+  { label: "Vercel", desc: "Frontend hosting + deployment" },
+];
+
+// Measured — the headline is a single contract at 95.7% of the EVM cap.
+const METRICS: [string, string][] = [
+  ["Contract size", "23,531 / 24,576 B"],
+  ["EVM cap used", "95.7%"],
+  ["On-chain roles", "4 dashboards"],
+  ["Log pagination", "5 entries / page"],
 ];
 
 // Real on-chain roles — the access-control model.
@@ -58,10 +69,21 @@ export default function InternProofCase() {
       manifest={MANIFEST}
       github={P.github}
       live={P.live}
+      links={[{ label: "Contract on Etherscan", href: `https://sepolia.etherscan.io/address/${CONTRACT}` }]}
     >
       <motion.section {...reveal}>
         <div className="cs-sec"><b>System Breakdown</b> Contract architecture <span className="rule" /></div>
         <div className="readout">{P.detail}</div>
+      </motion.section>
+
+      <motion.section {...reveal}>
+        <div className="cs-sec"><b>Metrics</b> On-chain footprint <span className="rule" /><span className="n">{String(METRICS.length).padStart(2, "0")} tracked</span></div>
+        <div className="stats">
+          {METRICS.map(([k, v]) => (
+            <div className="stat" key={k}><span className="sk">{k}</span><span className="sv acc">{v}</span></div>
+          ))}
+        </div>
+        <p className="mod-spec" style={{ marginTop: 14 }}>The whole system is one contract engineered to 95.7% of Ethereum&apos;s 24,576-byte limit — every feature had to fit under the cap.</p>
       </motion.section>
 
       <motion.section {...reveal}>
