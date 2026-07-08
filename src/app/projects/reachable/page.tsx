@@ -9,38 +9,52 @@ import type { BootLine } from "@/components/case/Boot";
 const P = projects.find((x) => x.slug === "reachable")!;
 
 const SPEC: Spec[] = [
-  ["Class", "Emergency comms app", true],
-  ["Trigger", "Voice / gesture", true],
-  ["Sync", "Firebase realtime", false],
-  ["Fallback", "SMS gateway (offline)", true],
-  ["Location", "Live GPS share", false],
-  ["A11y", "Accessibility-first", false],
-  ["Platform", "Flutter · iOS/Android", false],
-  ["Role", "Lead developer", false],
-  ["Status", "Thesis · shipped", true],
+  ["Platform", "Flutter · iOS/Android", true],
+  ["Backend", "Firebase", false],
+  ["Auth", "Firebase Auth", false],
+  ["Database", "Cloud Firestore", false],
+  ["Location", "GPS + Google Maps", false],
+  ["Trigger", "Voice + manual SOS", true],
+  ["Offline", "SMS fallback", true],
+  ["Role", "Lead dev · team of 4", false],
+  ["Status", "Capstone prototype", true],
 ];
 
 const MANIFEST: ManifestItem[] = [
   { label: "Flutter", desc: "Cross-platform iOS & Android client" },
-  { label: "Firebase", desc: "Realtime location sync + auth" },
-  { label: "GPS APIs", desc: "Live location sharing" },
-  { label: "Voice Commands", desc: "Hands-free emergency trigger" },
+  { label: "Firebase Auth", desc: "Secure user authentication" },
+  { label: "Cloud Firestore", desc: "Real-time emergency data" },
+  { label: "Firebase Storage", desc: "Profile media storage" },
+  { label: "Google Maps API", desc: "Live location visualization" },
+  { label: "Geolocator", desc: "GPS location retrieval" },
+  { label: "Speech Recognition", desc: "Voice-triggered activation" },
+  { label: "SMS", desc: "Offline emergency fallback" },
 ];
 
 const CAPABILITIES = [
   "Voice-command SOS trigger",
-  "Gesture-based navigation",
-  "Real-time GPS via Firebase",
+  "Manual SOS activation",
+  "Real-time GPS + Google Maps",
   "SMS fallback when offline",
+  "Emergency contact management",
   "Accessibility-first interface",
-  "Responder companion view",
+];
+
+// Honest project scope — a capstone prototype, not a shipped product.
+const FACTS: [string, string][] = [
+  ["Team", "4 developers"],
+  ["My role", "Lead developer"],
+  ["Emergency triggers", "2 · voice + manual"],
+  ["Platforms", "Android + iOS (Flutter)"],
+  ["Evaluation", "Capstone-assessed"],
+  ["Public users", "0 · not deployed"],
 ];
 
 const BOOT: BootLine[] = [
   { pfx: ">", text: "mount /case-file/reachable", dim: true },
-  { pfx: ">", text: "REACHABLE // emergency comms for PWDs  [ thesis · lead dev ]" },
+  { pfx: ">", text: "REACHABLE // accessible emergency comms  [ capstone · lead dev ]" },
   { pfx: ">", text: P.story },
-  { pfx: ">", text: "net-state: online(firebase) → degraded(buffer) → offline(sms)", dim: true },
+  { pfx: ">", text: "net-state: online(firebase) → offline(sms fallback)", dim: true },
 ];
 
 const images = caseStudySections.flatMap((s) =>
@@ -51,9 +65,9 @@ export default function ReachableCase() {
   return (
     <CaseShell
       code={`RCH-${P.num}`}
-      status="Thesis · shipped"
+      status="Capstone prototype"
       statusActive
-      classification="// Tactical Field Application"
+      classification="// Accessibility Emergency System"
       name={P.name}
       tagline={`${P.tagline} · ${P.tech.join(" / ")}`}
       boot={BOOT}
@@ -65,6 +79,16 @@ export default function ReachableCase() {
       <motion.section {...reveal}>
         <div className="cs-sec"><b>System Breakdown</b> Technical summary <span className="rule" /></div>
         <div className="readout">{P.detail}</div>
+      </motion.section>
+
+      <motion.section {...reveal}>
+        <div className="cs-sec"><b>Project Facts</b> Team &amp; scope <span className="rule" /><span className="n">{String(FACTS.length).padStart(2, "0")}</span></div>
+        <div className="stats">
+          {FACTS.map(([k, v]) => (
+            <div className="stat" key={k}><span className="sk">{k}</span><span className="sv acc">{v}</span></div>
+          ))}
+        </div>
+        <p className="mod-spec" style={{ marginTop: 14 }}>Undergraduate capstone — evaluated academically, built as a working prototype. Not published to app stores.</p>
       </motion.section>
 
       <motion.section {...reveal}>

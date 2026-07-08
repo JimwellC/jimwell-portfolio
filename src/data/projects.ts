@@ -74,16 +74,16 @@ export const projects: Project[] = [
     slug: "reachable",
     containImage: true,
     num: "03",
-    badge: { label: "◈ thesis", style: "thesis" },
+    badge: { label: "◈ capstone", style: "capstone" },
     category: ["mobile", "thesis"],
     featured: true,
     name: "ReachAble",
-    tagline: "Emergency communication app for PWDs",
+    tagline: "Accessible emergency communication for PWDs",
     story:
-      "Our thesis project — an emergency communication app for persons with disabilities. Built so that in the moments that matter most, the app gets out of the way and just works. Voice commands, gesture recognition, and real-time GPS tracking.",
+      "A research-driven accessibility product, built as our undergraduate capstone. Most emergency apps assume you can navigate menus and hit small targets under stress — ReachAble reduces that to a voice command or a single SOS, and still gets a located distress message out with no internet by falling back to SMS.",
     detail:
-      "Flutter cross-platform app with voice command input, gesture-based navigation, and real-time GPS location sharing via Firebase. Designed with accessibility-first thinking for users who can't rely on standard touch.",
-    tech: ["Flutter", "Firebase", "GPS APIs", "Voice Commands"],
+      "A cross-platform Flutter app on Firebase (Auth, Firestore, Storage). An emergency grabs the user's GPS, builds a distress message from their stored profile, and pushes it through Firebase — automatically falling back to SMS when connectivity drops so contacts still receive the alert. Accessibility-first: voice-triggered or one-tap SOS with minimal navigation.",
+    tech: ["Flutter", "Firebase", "Cloud Firestore", "Google Maps", "Geolocator", "SMS"],
     keyTech: ["Flutter", "Firebase"],
     images: [
       "/projects/reachable/logo.png",
