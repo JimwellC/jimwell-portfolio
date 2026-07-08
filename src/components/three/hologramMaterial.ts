@@ -52,9 +52,9 @@ export const HologramMaterial = shaderMaterial(
       float flick = 0.92 + 0.08 * sin(uTime * 40.0);                // flicker
 
       col += scan;
-      col = mix(col, uColor, 0.25);          // tint toward cobalt
-      col *= flick * (0.7 + 0.5 * sweep);
-      col += uColor * 0.35 * mask;           // emissive lift so bright edges bloom
+      col = mix(col, uColor, 0.05);          // barely-there cobalt tint — skin stays true
+      col *= flick * (1.05 + 0.3 * sweep);   // bright base so the face reads clearly
+      col += uColor * 0.10 * lum * mask;     // faint glow only on the brightest highlights
 
       float edge  = smoothstep(0.5, 0.05, distance(vUv, vec2(0.5))); // soft vignette
       float alpha = (0.5 + 0.5 * lum) * edge * mask;                 // gated by subject
