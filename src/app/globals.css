@@ -543,7 +543,7 @@ h2 em { font-style: italic; color: var(--cobalt-ink); }
 .st.pending { color: var(--grey); border: 1px solid var(--line-strong); }
 
 /* telemetry viewports */
-.telem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 18px; }
+.telem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%),1fr)); gap: 18px; }
 .telem { position: relative; border: 1px solid color-mix(in srgb, var(--cobalt) 26%, var(--line-strong)); border-radius: 4px; overflow: hidden; background: var(--paper-2); }
 .telem-view { position: relative; aspect-ratio: 16/11; overflow: hidden; }
 .telem-view img { object-fit: contain; }
@@ -656,7 +656,10 @@ h2 em { font-style: italic; color: var(--cobalt-ink); }
 .cs-foot a:hover { color: var(--cobalt-ink); }
 
 @media (max-width: 900px) {
-  .cs-grid { grid-template-columns: 1fr; }
+  /* Single column: minmax(0,1fr) lets the track shrink below its content's
+     min-content, so a nowrap child (e.g. .spec-stream) can't blow the layout
+     wider than the viewport. Overflow is clipped by each panel's overflow:hidden. */
+  .cs-grid { grid-template-columns: minmax(0, 1fr); }
   .cs-rail { position: static; }
   .modules { grid-template-columns: 1fr; }
 }
@@ -699,4 +702,62 @@ h2 em { font-style: italic; color: var(--cobalt-ink); }
   html { scroll-behavior: auto; }
   .dot { animation: none; }
   .portrait img, .thumb img { transition: none; }
+}
+
+/* ── Mobile nav — hamburger + dropdown ───────────────────────
+   The inline .navlinks bar drops most links on small screens, so below
+   900px we hide it entirely and expose the full nav through a toggle. */
+.navtoggle { display: none; }
+
+@media (max-width: 900px) {
+  .navlinks { display: none; }
+  .navtoggle {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+    width: 42px; height: 34px; padding: 0; cursor: pointer;
+    background: none; border: 1px solid var(--line-strong); border-radius: 3px;
+    transition: border-color .18s;
+  }
+  .navtoggle:hover { border-color: var(--cobalt-ink); }
+  .navtoggle span { width: 18px; height: 1.5px; background: var(--ink); transition: transform .22s ease, opacity .18s; }
+  .navtoggle.open { border-color: var(--cobalt-ink); }
+  .navtoggle.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .navtoggle.open span:nth-child(2) { opacity: 0; }
+  .navtoggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+}
+
+.navmenu { display: none; border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--paper) 94%, transparent); backdrop-filter: blur(8px); }
+.navmenu.open { display: block; }
+/* .topbar .col also matches this inner col — override its center/24px-gap. */
+.navmenu .col { display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 0; padding-top: 4px; padding-bottom: 14px; }
+.navmenu a {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 14px 2px; border-bottom: 1px solid var(--line); text-decoration: none;
+  font-family: var(--mono); font-size: 14px; letter-spacing: .03em; text-transform: lowercase;
+  color: var(--ink-soft); transition: color .15s, padding-left .18s;
+}
+.navmenu a:last-child { border-bottom: none; }
+.navmenu a:hover, .navmenu a:active { color: var(--cobalt-ink); padding-left: 8px; }
+.navmenu a.hire { color: var(--cobalt-ink); }
+.navmenu a .ix { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; color: var(--grey); font-variant-numeric: tabular-nums; }
+.navmenu a:hover .ix { color: var(--cobalt-ink); }
+
+/* ── Mobile chrome refinements (phones) ──────────────────────
+   Command bars were desktop-first single rows; on phones they crammed
+   and broke words mid-token. Keep each label intact and let the bar wrap. */
+@media (max-width: 640px) {
+  /* Home topbar: drop the sub-label so brand + toggle sit on one clean line */
+  .topbar .col { gap: 14px; }
+  .brand { gap: 8px; }
+  .brand .sub { display: none; }
+  .brand .mark { white-space: nowrap; }
+
+  /* Case/index/ledger command bar: wrap to rows, never break a token */
+  .cs-bar .col { flex-wrap: wrap; gap: 6px 14px; padding-top: 11px; padding-bottom: 10px; }
+  .cs-bar .l, .cs-bar .r { gap: 12px; flex-wrap: wrap; }
+  .cs-bar .col > .l { flex: 1 1 100%; }
+  .cs-bar .l > span, .cs-bar .r > span, .cs-bar .r > a { white-space: nowrap; }
+
+  /* Ledger header: stack the title above the hash summary instead of
+     letting both wrap into a ragged two-column block */
+  .ledger-bar { flex-direction: column; align-items: flex-start; gap: 6px; }
 }
