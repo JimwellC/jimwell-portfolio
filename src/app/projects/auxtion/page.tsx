@@ -176,7 +176,7 @@ export default function AuxtionCase() {
             </div>
 
             <div className="rail-links">
-              <a className="rail-link" href={P.github} target="_blank" rel="noopener noreferrer">Source repository <span>↗</span></a>
+              {P.github && <a className="rail-link" href={P.github} target="_blank" rel="noopener noreferrer">Source repository <span>↗</span></a>}
               {P.live && <a className="rail-link" href={P.live} target="_blank" rel="noopener noreferrer">Live deployment <span>↗</span></a>}
             </div>
           </aside>
