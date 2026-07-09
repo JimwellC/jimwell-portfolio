@@ -1,8 +1,12 @@
+"use client";
+import { useState } from "react";
 import Link from "next/link";
 import Parallax from "./Parallax";
 import { certifications } from "@/data/certifications";
+import CertLightbox, { type CertView } from "./CertLightbox";
 
 export default function Certifications() {
+  const [active, setActive] = useState<CertView | null>(null);
   const count = String(certifications.length).padStart(2, "0");
   return (
     <section id="certifications" className="section">
@@ -17,10 +21,15 @@ export default function Certifications() {
 
           <div className="certgrid">
             {certifications.map((c) => (
-              <Link href="/certifications" className="cert" key={c.id} style={{ textDecoration: "none" }}>
+              <button
+                type="button"
+                className="cert"
+                key={c.id}
+                onClick={() => setActive({ src: c.image, alt: c.name, title: c.name, subtitle: `${c.issuer} · ${c.date}` })}
+              >
                 <span className="cn">{c.name}</span>
                 <span className="ci">{c.issuer} · {c.date}</span>
-              </Link>
+              </button>
             ))}
           </div>
 
@@ -30,6 +39,8 @@ export default function Certifications() {
           </Link>
         </div>
       </Parallax>
+
+      <CertLightbox cert={active} onClose={() => setActive(null)} />
     </section>
   );
 }
