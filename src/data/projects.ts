@@ -142,7 +142,31 @@ export const projects: Project[] = [
   live: "https://www.fadelan.com",
   caseStudy: "/projects/fad-elan",
 },
- 
+  {
+    slug: "aigos",
+    num: "06",
+    badge: { label: "◐ in review", style: "in review" },
+    category: ["mobile"],
+    featured: true,
+    containImage: true,
+    name: "aigos",
+    tagline: "Know your fuel cost before every trip",
+    story:
+      "Filipino drivers have no reliable way to estimate fuel costs before a trip — global apps ignore Philippine roads, fuel grades, and peso pricing. Every provincial drive is a guessing game of gas prices, traffic, and tolls. I built aigos to give a specific, honest answer in seconds — fully offline.",
+    detail:
+      "A fully offline iOS app (Swift 6 / SwiftUI). Every calculation runs on-device via a physics-based engine that stacks adjustment factors — speed, AC, road type, traffic, load, vehicle age, maintenance. Data persists locally with SwiftData (no backend, no auth), and a custom rule-based NLP parser answers English and Tagalog trip queries with no cloud AI. Apple MapKit is the only online dependency, and only for the optional map picker.",
+    tech: ["Swift 6", "SwiftUI", "SwiftData", "MapKit", "XCTest", "Fastlane"],
+    keyTech: ["Swift 6", "SwiftData"],
+    images: [
+      "/projects/aigos/app-icon-rounded.png",
+    ],
+    glow: "rgba(74,222,128,0.06)",
+    glowHover: "rgba(74,222,128,0.12)",
+    github: "",
+    live: "",
+    caseStudy: "/projects/aigos",
+  },
+
   // ── ADD MORE PROJECTS BELOW ──────────────────────────────────────
   // {
   //   slug: "my-new-project",
