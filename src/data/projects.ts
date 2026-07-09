@@ -50,7 +50,7 @@ export const projects: Project[] = [
     num: "02",
     badge: { label: "◆ saas", style: "saas" },
     category: ["web", "saas"],
-    featured: true,
+    featured: false,
     name: "Fad Fashiown",
     tagline: "TikTok live selling automation",
     story:
