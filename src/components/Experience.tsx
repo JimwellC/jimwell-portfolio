@@ -30,34 +30,34 @@ export default function Experience() {
             <span className="r">{location.toUpperCase()}</span>
           </div>
 
-          {experiences.map((xp) => {
-            const cert = xp.certificates[0];
-            const open = () => cert && setActive(cert);
-            return (
-              <div
-                className={`xp${cert ? " xp-clickable" : ""}`}
-                key={xp.id}
-                onClick={cert ? open : undefined}
-                role={cert ? "button" : undefined}
-                tabIndex={cert ? 0 : undefined}
-                aria-label={cert ? `${xp.role} at ${xp.company} — view certificate` : undefined}
-                onKeyDown={cert ? (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } } : undefined}
-              >
-                <div className="when">{xp.period} —<br />{xp.location}</div>
-                <div>
-                  <h3 className="role">{xp.role}</h3>
-                  <div className="org">{xp.company}</div>
-                  <p className="desc">{withHighlight(xp.description, xp.highlight)}</p>
-                  <div className="chips">
-                    {xp.tags.map((t) => <span key={t} className="tag">{t}</span>)}
-                  </div>
-                  {cert && (
-                    <span className="xp-cert">◈ View certificate <span>↗</span></span>
-                  )}
+          {experiences.map((xp) => (
+            <div className="xp" key={xp.id}>
+              <div className="when">{xp.period} —<br />{xp.location}</div>
+              <div>
+                <h3 className="role">{xp.role}</h3>
+                <div className="org">{xp.company}</div>
+                <p className="desc">{withHighlight(xp.description, xp.highlight)}</p>
+                <div className="chips">
+                  {xp.tags.map((t) => <span key={t} className="tag">{t}</span>)}
                 </div>
+                {xp.certificates.length > 0 && (
+                  <div className="xp-certs">
+                    {xp.certificates.map((cert) => (
+                      <button
+                        key={cert.id}
+                        type="button"
+                        className="xp-cert"
+                        onClick={() => setActive(cert)}
+                        aria-label={`View ${cert.title}`}
+                      >
+                        ◈ {cert.title} <span>↗</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
       </Parallax>
 

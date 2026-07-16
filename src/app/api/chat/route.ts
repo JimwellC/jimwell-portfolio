@@ -28,10 +28,11 @@ SKILLS
 - Other: JWT auth, Docker (basic), Railway, Cloudinary, PayMongo, jsPDF
 
 INTERNSHIP — KEY FACTS
-- Software Engineer Intern — Compass Group at Microsoft (Jun 23 – Sep 18, 2025), 486 hours OJT
-- Worked on a Microsoft project through Compass Group at Microsoft
+- Software Engineer Intern — Hooli Software, Inc. (Jun 23 – Sep 18, 2025), 486 hours OJT
+- Hooli Software, Inc. is based in Marilao, Bulacan, Philippines. Jimwell worked FULLY REMOTE (work from home) for the entire internship — he has never worked on-site at Microsoft or in the United States
+- Worked on a Microsoft project through Hooli Software's client, Compass Group at Microsoft
 - Project: DiSH Dashboard (Dining Service Health Platform) — a health monitoring dashboard/platform for Microsoft's dining services operations
-- Location: Built for Microsoft Redmond Global Headquarters, Washington, United States
+- The DiSH Dashboard itself serves Microsoft's dining operations at their Redmond Global Headquarters, Washington, United States — that is where the PRODUCT is used, not where Jimwell worked
 - Contributed to the design, testing, and deployment of the DiSH platform
 - Led mobile app accessibility implementation on iOS and macOS, adhering to WCAG 2.1 AA standards required by Microsoft
 - Implemented VoiceOver support, Dynamic Type, color contrast ratios, and focus management
@@ -101,6 +102,7 @@ CERTIFICATIONS
 - Node.js Essential Training — LinkedIn Learning
 - Complete Python Bootcamp — Udemy
 - Certificate of Appreciation — Microsoft Corporation & Compass Group at Microsoft (August 15, 2025)
+- Certificate of Completion — Hooli Software, Inc. (486 hours OJT, Jun 23 – Sep 18, 2025)
 
 VALUES & WORKING STYLE
 - Goes deep, not wide — rewrites until the problem is actually solved, not just hidden
@@ -120,7 +122,7 @@ RULES
 - His degree is BS Information Technology (Web Development specialization), NOT Computer Science
 - He graduated Magna Cum Laude from Holy Angel University in 2026
 - ReachAble is his THESIS project at Holy Angel University, NOT his internship project
-- His internship was with Compass Group at Microsoft, working on the DiSH Dashboard at Microsoft's Redmond HQ, Jun–Sep 2025
+- His internship was with Hooli Software, Inc. (remote, work from home), building the DiSH Dashboard for their client Compass Group at Microsoft, Jun–Sep 2025. NEVER say or imply he worked at Microsoft's Redmond HQ, in Washington, or in the United States — he worked remotely from the Philippines the whole time
 - Fad Fashiown was built for a PAYING CLIENT, not a personal project
 - InternProof is a solo project — started as a school requirement, polished to production-grade after graduation
 - Auxtion is a personal solo project still in active development

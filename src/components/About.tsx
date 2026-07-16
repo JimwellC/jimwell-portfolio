@@ -7,11 +7,11 @@ const stats: [string, string, boolean][] = [
   ["Focus", "Full-stack + mobile", false],
   ["Remote", "Yes, preferred", true],
   ["Education", "HAU · BS IT · 2026", false],
-  ["Internship", "Compass Group · Microsoft", false],
+  ["Internship", "Hooli Software · remote", false],
 ];
 
 const paragraphs = [
-  "I graduated from Holy Angel University in early 2026 with a BS in Information Technology, specializing in Web Development. Before finishing school, I was already contributing to a real Microsoft project — the DiSH Dashboard for Compass Group at Microsoft's Redmond headquarters.",
+  "I graduated from Holy Angel University in early 2026 with a BS in Information Technology, specializing in Web Development. Before finishing school, I was already contributing to a real Microsoft project — interning remotely at Hooli Software on the DiSH Dashboard, built for Compass Group at Microsoft's Redmond headquarters.",
   "Outside of software, I run a small side hustle buying and selling vintage clothes — which is what inspired Fad Fashiown. I understand the problem because I lived it.",
   "I'm exploring what's next: a team where the technical problems are hard, the product actually matters, and the people care about doing it right.",
 ];

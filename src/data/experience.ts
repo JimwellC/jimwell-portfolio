@@ -21,23 +21,31 @@ export type Experience = {
 
 export const experiences: Experience[] = [
   {
-    id: "compass-microsoft",
+    id: "hooli-software",
     role: "Software Engineer Intern",
-    company: "Compass Group at Microsoft",
-    location: "Redmond, WA",
+    company: "Hooli Software, Inc. · remote",
+    location: "Remote · Philippines",
     period: "2025",
     description:
-      "Contributed to the design, testing, and deployment of the DiSH Dashboard — a Dining Service Health platform built for Microsoft's operations at their Redmond Global Headquarters in Washington, United States. 486 hours of OJT, Jun–Sep 2025.",
+      "Contributed to the design, testing, and deployment of the DiSH Dashboard — a Dining Service Health platform built for Compass Group at Microsoft, serving Microsoft's dining operations at their Redmond headquarters. 486 hours of OJT, worked fully remote, Jun–Sep 2025.",
     highlight: "DiSH Dashboard",
-    tags: ["DiSH Dashboard", "Microsoft HQ", "Redmond, WA"],
+    tags: ["DiSH Dashboard", "Compass Group at Microsoft", "Remote"],
     certificates: [
       {
         id: "microsoft",
         src: "/certificates/microsoft-appreciation.png",
         alt: "Certificate of Appreciation — Microsoft Corporation & Compass Group at Microsoft",
         title: "Certificate of Appreciation — Microsoft Corporation",
-        subtitle: "Compass Group at Microsoft · August 15, 2025 · Redmond, WA",
+        subtitle: "Microsoft Corporation & Compass Group at Microsoft · August 15, 2025",
         icon: "microsoft",
+      },
+      {
+        id: "hooli",
+        src: "/certificates/hooli-completion.png",
+        alt: "Certificate of Completion — Hooli Software, Inc.",
+        title: "Certificate of Completion — Hooli Software, Inc.",
+        subtitle: "486 hours OJT · Jun 23 – Sep 18, 2025 · Marilao, Bulacan",
+        icon: "default",
       },
     ],
   },
