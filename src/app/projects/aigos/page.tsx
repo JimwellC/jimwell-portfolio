@@ -18,7 +18,7 @@ const SPEC: Spec[] = [
   ["AI / NLP", "Rule-based · on-device", false],
   ["Maps", "Apple MapKit (optional)", false],
   ["Tests", "283 passing", true],
-  ["Status", "Submitted · in review", true],
+  ["Status", "Live on the App Store", true],
 ];
 
 const MANIFEST: ManifestItem[] = [
@@ -119,13 +119,14 @@ const BOOT: BootLine[] = [
   { pfx: ">", text: "AIGOS // offline fuel-cost engine  [ solo · iOS ]" },
   { pfx: ">", text: P.story },
   { pfx: ">", text: "net-state: offline(on-device) · mapkit(optional, online)", dim: true },
+  { pfx: ">", text: "status: APPROVED — live on the App Store (PH)", dim: true },
 ];
 
 export default function AigosCase() {
   return (
     <CaseShell
       code={`AIG-${P.num}`}
-      status="Submitted · in review"
+      status="Live on the App Store"
       statusActive
       classification="// Offline Fuel-Cost Engine"
       name={P.name}
@@ -135,6 +136,7 @@ export default function AigosCase() {
       manifest={MANIFEST}
       github={P.github}
       live={P.live}
+      liveLabel="Download on the App Store"
       links={[{ label: "Privacy policy", href: PRIVACY }]}
     >
       <motion.section {...reveal}>

@@ -95,6 +95,22 @@ PROJECTS
    - Why UUPS over Transparent proxy: upgrade logic lives in implementation, not proxy — cheaper deployment, lower gas per call
    - Why IPFS over on-chain storage: storing images on-chain costs thousands in gas — IPFS stores the image, CID hash stored on-chain for tamper-evidence
 
+5. aigos — Offline Fuel-Cost Calculator for Filipino Drivers (personal project, SHIPPED — live on the App Store)
+   - Swift 6, SwiftUI, SwiftData, MapKit, XCTest, Fastlane — native iOS (iOS 17+)
+   - Solo project. Jimwell's FIRST app published to the App Store — approved and live
+   - App Store: https://apps.apple.com/ph/app/aigos/id6787352080
+   - Case study: jimwell-portfolio.vercel.app/projects/aigos
+   - Tells Filipino drivers what a trip will cost in fuel before they leave — global apps ignore Philippine roads, fuel grades, and peso pricing
+   - Fully OFFLINE: every calculation runs on-device, zero backend, zero auth, zero external API calls. Apple MapKit is the only online dependency and only for the optional map picker
+
+   Key technical details:
+   - Physics-based calculation engine stacking ~15 independent adjustment factors: speed, AC, road type, traffic, load, vehicle age, maintenance
+   - Custom rule-based NLP parser answers English AND Tagalog trip queries entirely on-device in under 10ms — no cloud AI (e.g. "Magkano ang gas papuntang Baguio?")
+   - 100+ Philippine vehicle database, 167+ place offline gazetteer, 13 expressway toll database (TRB 2026)
+   - Cross-island detection: maps every PH city to its island group, returns multi-modal land + ferry/flight breakdown instead of a nonsensical land distance across water
+   - 283 unit tests covering physics + NLP; automated App Store builds via Fastlane
+   - GPS trip tracking measured ~96% estimate accuracy on 20+ km real-road trips; calculation stays under 100ms
+
 CERTIFICATIONS
 - CCNA: Introduction to Networks — Cisco Networking Academy
 - Cybersecurity Essentials — Cisco Networking Academy
@@ -126,6 +142,7 @@ RULES
 - Fad Fashiown was built for a PAYING CLIENT, not a personal project
 - InternProof is a solo project — started as a school requirement, polished to production-grade after graduation
 - Auxtion is a personal solo project still in active development
+- aigos is SHIPPED and live on the App Store — it is his only published app, so lead with it when asked about mobile/iOS experience or what he has actually launched. Never describe it as "in review" or "submitted"
 - Jimwell is actively seeking full-time roles — on-site anywhere in the Philippines, or remote for international`;
 
 // Model tiers, tried in order. Fail over to the next only on transient overload.

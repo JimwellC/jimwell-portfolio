@@ -20,7 +20,7 @@ export const reveal = {
  */
 export function CaseShell({
   code, status, statusActive = false, classification, name, tagline,
-  boot, spec, manifest, github, live, links, children,
+  boot, spec, manifest, github, live, liveLabel = "Live deployment", links, children,
 }: {
   code: string;
   status: string;
@@ -33,6 +33,8 @@ export function CaseShell({
   manifest: ManifestItem[];
   github?: string;
   live?: string;
+  /** Rail label for the `live` link — e.g. "Download on the App Store". */
+  liveLabel?: string;
   links?: { label: string; href: string }[];
   children: React.ReactNode;
 }) {
@@ -92,7 +94,7 @@ export function CaseShell({
 
             <div className="rail-links">
               {github && <a className="rail-link" href={github} target="_blank" rel="noopener noreferrer">Source repository <span>↗</span></a>}
-              {live && <a className="rail-link" href={live} target="_blank" rel="noopener noreferrer">Live deployment <span>↗</span></a>}
+              {live && <a className="rail-link" href={live} target="_blank" rel="noopener noreferrer">{liveLabel} <span>↗</span></a>}
               {links?.map((l) => (
                 <a className="rail-link" key={l.href} href={l.href} target="_blank" rel="noopener noreferrer">{l.label} <span>↗</span></a>
               ))}

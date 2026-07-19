@@ -145,7 +145,7 @@ export const projects: Project[] = [
   {
     slug: "aigos",
     num: "06",
-    badge: { label: "◐ in review", style: "in review" },
+    badge: { label: "● on the app store", style: "live" },
     category: ["mobile"],
     featured: true,
     containImage: true,
@@ -163,7 +163,7 @@ export const projects: Project[] = [
     glow: "rgba(74,222,128,0.06)",
     glowHover: "rgba(74,222,128,0.12)",
     github: "",
-    live: "",
+    live: "https://apps.apple.com/ph/app/aigos/id6787352080",
     caseStudy: "/projects/aigos",
   },
 
