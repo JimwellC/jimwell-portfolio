@@ -101,7 +101,17 @@ export default function Hero() {
           <div className="rail">
             <div className="row"><span className="k">Local — Manila</span><span className="v">{time}</span></div>
             <MiniScope />
-            <div className="row"><span className="k">Now shipping</span><span className="v acc">Fad Élan · v1</span></div>
+            <div className="row">
+              <span className="k">Now shipping</span>
+              <a
+                className="v acc ship"
+                href="https://apps.apple.com/ph/app/aigos/id6787352080"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                aigos · App Store <span className="arw">↗</span>
+              </a>
+            </div>
           </div>
         </div>
       </section>

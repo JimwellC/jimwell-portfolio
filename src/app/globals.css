@@ -141,6 +141,10 @@ h2 em { font-style: italic; color: var(--cobalt-ink); }
 .rail .k { font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--grey); }
 .rail .v { font-size: 12px; color: var(--ink); font-variant-numeric: tabular-nums; }
 .rail .v.acc { color: var(--cobalt-ink); }
+.rail .ship { text-decoration: none; transition: opacity .2s; }
+.rail .ship:hover { opacity: .72; }
+.rail .ship:focus-visible { outline: 2px solid var(--cobalt-ink); outline-offset: 3px; border-radius: 2px; }
+.rail .ship .arw { opacity: .6; }
 .scope { border: 1px solid var(--line); border-radius: 2px; overflow: hidden; background: var(--paper-2); }
 .scope canvas { display: block; width: 100%; height: 46px; }
 .scope .cap { font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--grey); padding: 5px 8px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; font-family: var(--mono); }
